@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abit0kidpweb | Commissions & Gallery</title>
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍼</text></svg>">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Nunito -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Nunito', 'sans-serif'],
+                    },
+                    colors: {
+                        nursery: {
+                            pink: '#FCE7F3',
+                            rose: '#FDA4AF',
+                            lavender: '#E9D5FF',
+                            cream: '#FEF3C7',
+                            text: '#4B5563',
+                            dark: '#1F2937'
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 6s ease-in-out 3s infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #FDF2F8;
+            overflow: hidden; /* Prevent scrolling for age gate */
+            background-image: 
+                radial-gradient(circle at 100% 100%, #FCE7F3 0, transparent 50%),
+                radial-gradient(circle at 0% 0%, #E9D5FF 0, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #FCE7F3; }
+        ::-webkit-scrollbar-thumb { background: #FDA4AF; border-radius: 10px; }
+
+        .preserve-3d { transform-style: preserve-3d; }
+        .translate-z-10 { transform: translateZ(30px); }
+
+        /* 3D Cute Logo Effect - Abit0kidp */
+        .text-3d-cute {
+            color: #1F2937;
+            position: relative;
+            display: inline-block;
+            text-shadow: 
+                1px 1px 0px #FDA4AF,
+                2px 2px 0px #FDA4AF,
+                3px 3px 0px #FDA4AF,
+                4px 4px 0px #E9D5FF,
+                5px 5px 0px #E9D5FF,
+                6px 6px 5px rgba(0,0,0,0.15);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), text-shadow 0.3s ease;
+        }
+        .text-3d-cute:hover {
+            transform: translateY(-4px) rotate(-2deg) scale(1.05);
+            text-shadow: 
+                2px 2px 0px #FDA4AF,
+                4px 4px 0px #FDA4AF,
+                6px 6px 0px #FDA4AF,
+                8px 8px 0px #E9D5FF,
+                10px 10px 0px #E9D5FF,
+                12px 12px 10px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body class="text-nursery-text antialiased font-sans relative">
+
+    <!-- AGE GATE SPLASH SCREEN -->
+    <div id="age-gate" class="fixed inset-0 z-50 flex items-center justify-center bg-nursery-pink/80 backdrop-blur-md transition-opacity duration-500">
+        <div class="glass p-10 md:p-14 rounded-3xl shadow-2xl max-w-md w-full mx-4 text-center transform transition-transform scale-100 border-2 border-white preserve-3d" data-tilt data-tilt-glare data-tilt-max-glare="0.2">
+            <div class="translate-z-10">
+                <div class="w-20 h-20 bg-nursery-rose text-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-pink-200">
+                    <i class="fa-solid fa-lock text-3xl"></i>
+                </div>
+                <h1 class="text-3xl font-extrabold text-nursery-dark mb-4" data-i18n="age-title">Content Warning</h1>
+                <p class="mb-8 text-nursery-text text-lg" data-i18n="age-desc">This website contains material related to the ABDL community and is restricted to adults 18+.<br><br>Are you over 18?</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button onclick="leaveSite()" class="px-6 py-3 rounded-full font-bold text-nursery-rose bg-white border-2 border-nursery-rose hover:bg-nursery-pink transition-all shadow-md" data-i18n="age-no">
+                        No, leave
+                    </button>
+                    <button onclick="enterSite()" class="px-6 py-3 rounded-full font-bold text-white bg-nursery-rose hover:bg-pink-500 transition-all shadow-lg shadow-pink-300 hover:-translate-y-1" data-i18n="age-yes">
+                        Yes, enter
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVIGATION BAR -->
+    <nav class="fixed w-full z-40 top-4 px-4 pointer-events-none">
+        <div class="glass max-w-3xl mx-auto rounded-full px-6 py-3 flex justify-between items-center shadow-sm pointer-events-auto border-white/80">
+            <a href="#home" class="font-extrabold text-2xl tracking-tight text-3d-cute inline-block py-1 cursor-pointer">
+                Abit0kidp
+            </a>
+            <div class="hidden md:flex items-center gap-6 font-semibold text-sm text-nursery-text">
+                <a href="#gallery" class="hover:text-nursery-rose transition-colors" data-i18n="nav-gal">Gallery</a>
+                <a href="#commissions" class="hover:text-nursery-rose transition-colors" data-i18n="nav-com">Commissions</a>
+                <a href="#socials" class="hover:text-nursery-rose transition-colors" data-i18n="nav-soc">Socials</a>
+                
+                <!-- Separador vertical -->
+                <div class="w-px h-4 bg-pink-200"></div>
+                
+                <!-- Botón de Idiomas -->
+                <button onclick="toggleLang()" class="flex items-center gap-2 bg-pink-50/80 hover:bg-nursery-rose hover:text-white text-nursery-rose px-3 py-1.5 rounded-full transition-all duration-300 shadow-sm border border-pink-100">
+                    <i class="fa-solid fa-globe"></i>
+                    <span id="lang-indicator" class="font-bold tracking-wider">EN</span>
+                </button>
+            </div>
+            <!-- Mobile Menu Icon (simplified) -->
+            <div class="md:hidden flex items-center gap-4">
+                <button onclick="toggleLang()" class="text-nursery-rose font-bold text-sm bg-white px-2 py-1 rounded-md shadow-sm">
+                    <span id="lang-indicator-mobile">EN</span>
+                </button>
+                <div class="text-nursery-dark text-xl"><i class="fa-solid fa-bars"></i></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="min-h-screen flex items-center justify-center relative px-6 pt-20 overflow-hidden">
+        
+        <!-- Background Image with Blur Effect -->
+        <div class="absolute inset-0 z-[-1]">
+            <!-- AQUI_TU_IMAGEN_FONDO: Reemplaza el link de src por tu imagen de 1920x1080 de la guarderia -->
+            <img src="Images/Nurse_bg.png" alt="Fondo de la web" class="w-full h-full object-cover filter blur-[5px] opacity-80 scale-105">
+            <!-- Overlay blanco suave para lectura -->
+            <div class="absolute inset-0 bg-white/50"></div>
+        </div>
+
+        <div class="max-w-4xl mx-auto text-center z-10 preserve-3d">
+            <span class="inline-block py-1 px-4 rounded-full bg-white text-nursery-rose font-bold text-sm tracking-wide shadow-sm mb-6 border border-pink-100" data-i18n="hero-badge">3D/2D ABDL Artist</span>
+            
+            <h1 class="text-5xl md:text-7xl font-extrabold text-nursery-dark mb-6 leading-tight">
+                <span data-i18n="hero-title-1">Welcome to my</span> <br/>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-nursery-rose to-purple-400" data-i18n="hero-title-2">Official Web</span>
+            </h1>
+            
+            <p class="text-lg md:text-xl text-nursery-text max-w-2xl mx-auto mb-10 leading-relaxed font-medium bg-white/40 p-4 rounded-2xl backdrop-blur-sm shadow-sm" data-i18n="hero-desc">
+                Hi! I'm Abigail. I specialize in creating immersive and cute 3D art for the community. Explore my minimalist portfolio and discover how we can bring your ideas to life.
+            </p>
+            
+            <div class="flex gap-4 justify-center">
+                <a href="#commissions" class="px-8 py-4 rounded-full font-bold text-white bg-nursery-rose hover:bg-pink-500 transition-all shadow-xl shadow-pink-200 hover:-translate-y-1" data-i18n="hero-btn-1">
+                    Commission Me
+                </a>
+                <a href="#gallery" class="px-8 py-4 rounded-full font-bold text-nursery-dark bg-white border border-pink-100 hover:bg-gray-50 transition-all shadow-md hover:-translate-y-1" data-i18n="hero-btn-2">
+                    View My Art
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY SECTION -->
+    <section id="gallery" class="py-24 px-6 relative">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-extrabold text-nursery-dark mb-4 tracking-tight" data-i18n="gal-title">Artwork</h2>
+                <div class="w-24 h-1 bg-nursery-rose mx-auto rounded-full"></div>
+                
+                <div class="mt-10 max-w-4xl mx-auto mb-16">
+                    <div class="glass p-2 rounded-3xl shadow-lg preserve-3d" data-tilt data-tilt-max="2" data-tilt-glare data-tilt-max-glare="0.1">
+                        <!-- AQUI_TU_IMAGEN_FAVORITA: Reemplaza el link src por tu render principal -->
+                        <img src="https://placehold.co/1000x450/FDF2F8/FDA4AF?text=Tu+Render+Favorito+(Imagen+Larga)" alt="Render Principal Abigail" class="w-full h-48 md:h-[400px] object-cover rounded-2xl shadow-inner translate-z-10">
+                    </div>
+                    
+                    <div class="mt-8 bg-white/80 backdrop-blur-md px-6 py-5 rounded-2xl border border-nursery-rose/30 shadow-md text-sm md:text-base text-gray-700 leading-relaxed max-w-4xl mx-auto transform -translate-y-4">
+                        <div class="flex flex-col md:flex-row items-center md:items-start gap-4 text-center md:text-left">
+                            <div class="w-12 h-12 rounded-full bg-nursery-pink flex items-center justify-center shrink-0 border border-nursery-rose/50">
+                                <i class="fa-solid fa-circle-info text-2xl text-nursery-rose"></i>
+                            </div>
+                            <div>
+                                <p class="mb-2"><strong data-i18n="gal-note-title">Important Note about my Work:</strong></p>
+                                <p class="text-gray-600" data-i18n="gal-note-desc">All my art is modeled and illustrated using <strong>Blender 4.1.1</strong>. My work is created from a purely artistic perspective, like mental regression, without any intention to incite fetishism. <strong>I clarify that all characters depicted in my works are strictly of legal age (18+).</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Folders -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 max-w-4xl mx-auto">
+                
+                <!-- Carpeta 1: Arte Personal -->
+                <div class="group cursor-pointer" onclick="openGallery('personal')">
+                    <div class="w-2/5 h-8 bg-nursery-lavender rounded-t-xl ml-4 transition-all duration-300 group-hover:bg-purple-300 group-hover:-translate-y-1 relative z-0"></div>
+                    <div class="glass p-5 rounded-3xl rounded-tl-none shadow-xl border border-white transform transition duration-300 group-hover:-translate-y-2 relative overflow-hidden bg-white/80 group-hover:bg-nursery-lavender/40 z-10 preserve-3d">
+                        <div class="translate-z-10 relative">
+                            <h3 class="font-extrabold text-nursery-dark text-xl mb-4 flex items-center gap-2">
+                                <i class="fa-regular fa-folder-open text-purple-400"></i> <span data-i18n="gal-folder1">Personal Art</span>
+                            </h3>
+                            <div class="grid grid-cols-2 gap-3 pointer-events-none">
+                                <img src="https://placehold.co/300x300/FCE7F3/FDA4AF?text=Render+1" class="w-full h-28 object-cover rounded-xl shadow-sm border border-white/50">
+                                <img src="https://placehold.co/300x300/E9D5FF/FDA4AF?text=Render+2" class="w-full h-28 object-cover rounded-xl shadow-sm border border-white/50">
+                            </div>
+                            <div class="mt-5 flex justify-between items-center text-xs font-bold text-gray-400 uppercase tracking-wide">
+                                <span data-i18n="gal-folder1-sub">Own Projects</span>
+                                <span class="bg-white px-3 py-1.5 rounded-xl shadow-sm text-purple-500 flex items-center gap-1 group-hover:bg-purple-50 transition-colors"><span data-i18n="gal-open">Open</span> <i class="fa-solid fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Carpeta 2: Comisiones (Anidada por años) -->
+                <div class="group cursor-pointer" onclick="openGallery('commissions')">
+                    <div class="w-2/5 h-8 bg-nursery-rose/40 rounded-t-xl ml-4 transition-all duration-300 group-hover:bg-nursery-rose/60 group-hover:-translate-y-1 relative z-0"></div>
+                    <div class="glass p-5 rounded-3xl rounded-tl-none shadow-xl border border-white transform transition duration-300 group-hover:-translate-y-2 relative overflow-hidden bg-white/80 group-hover:bg-nursery-rose/30 z-10 preserve-3d">
+                        <div class="translate-z-10 relative">
+                            <h3 class="font-extrabold text-nursery-dark text-xl mb-4 flex items-center gap-2">
+                                <i class="fa-regular fa-folder-open text-nursery-rose"></i> <span data-i18n="gal-folder2">Commissions</span>
+                            </h3>
+                            <div class="grid grid-cols-2 gap-3 pointer-events-none">
+                                <img src="https://placehold.co/300x300/FEF3C7/FDA4AF?text=Comision+1" class="w-full h-28 object-cover rounded-xl shadow-sm border border-white/50">
+                                <img src="https://placehold.co/300x300/FDF2F8/FDA4AF?text=Comision+2" class="w-full h-28 object-cover rounded-xl shadow-sm border border-white/50">
+                            </div>
+                            <div class="mt-5 flex justify-between items-center text-xs font-bold text-gray-400 uppercase tracking-wide">
+                                <span data-i18n="gal-folder2-sub">Private Works</span>
+                                <span class="bg-white px-3 py-1.5 rounded-xl shadow-sm text-nursery-rose flex items-center gap-1 group-hover:bg-pink-50 transition-colors"><span data-i18n="gal-open">Open</span> <i class="fa-solid fa-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-16">
+                <div class="glass inline-block mx-auto px-8 py-3 rounded-full border border-pink-100 shadow-sm hover:-translate-y-1 transition-transform">
+                     <p class="text-nursery-rose font-bold text-sm tracking-widest uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-palette"></i> <span data-i18n="gal-soon">Coming Soon: 2D Art & Illustrations</span> <i class="fa-solid fa-wand-magic-sparkles"></i>
+                     </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODAL DE GALERÍA -->
+    <div id="gallery-modal" class="fixed inset-0 z-[60] hidden bg-nursery-pink/80 backdrop-blur-md items-center justify-center p-4 sm:p-6 opacity-0 transition-opacity duration-300">
+        <div class="glass w-full max-w-6xl max-h-[90vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden border-2 border-white transform scale-95 transition-transform duration-300" id="gallery-modal-content">
+            <div class="p-4 md:p-6 border-b border-pink-100 flex justify-between items-center bg-white/70 shrink-0">
+                <h3 id="modal-title" class="text-xl md:text-2xl font-extrabold text-nursery-dark flex items-center gap-2">
+                    <i class="fa-regular fa-folder-open text-nursery-rose"></i> Gallery
+                </h3>
+                <button onclick="closeGallery()" class="w-10 h-10 rounded-full bg-white text-gray-500 hover:text-nursery-rose hover:bg-pink-50 flex items-center justify-center shadow-sm transition-colors text-xl">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+            <div class="p-4 md:p-6 overflow-y-auto flex-grow h-full" id="modal-scroll-area">
+                <div id="modal-grid" class="max-w-5xl mx-auto">
+                    <!-- Dynamic injection -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LIGHTBOX MODAL -->
+    <div id="lightbox-modal" class="fixed inset-0 z-[70] hidden bg-black/90 backdrop-blur-xl items-center justify-center p-4 sm:p-8 opacity-0 transition-opacity duration-300" onclick="closeLightbox()">
+        <button onclick="closeLightbox()" class="absolute top-4 right-4 md:top-6 md:right-6 w-12 h-12 rounded-full bg-white/10 text-white hover:bg-white/20 hover:scale-110 flex items-center justify-center transition-all text-2xl z-[80]">
+            <i class="fa-solid fa-times"></i>
+        </button>
+        <img id="lightbox-img" src="" alt="Vista ampliada" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl transform scale-95 transition-transform duration-300 pointer-events-none">
+    </div>
+
+    <!-- COMMISSIONS SECTION -->
+    <section id="commissions" class="py-24 px-6 bg-white/40">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-extrabold text-nursery-dark mb-4" data-i18n="com-title">Commissions</h2>
+                <div class="w-24 h-1 bg-nursery-lavender mx-auto rounded-full"></div>
+                
+                <!-- Status Badge -->
+                <div class="mt-8 flex justify-center items-center gap-3">
+                    <span class="text-sm font-bold text-gray-500 uppercase tracking-widest" data-i18n="com-status-label">Current status:</span>
+                    <div class="glass px-5 py-2 rounded-full border-2 border-green-300 shadow-md flex items-center gap-3 bg-green-50 hover:-translate-y-1 transition-transform cursor-default">
+                        <span class="relative flex h-3 w-3">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                        </span>
+                        <span class="font-extrabold text-green-600 tracking-wide mt-0.5" data-i18n="com-status-val">OPEN</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-12 items-start">
+                
+                <div class="w-full lg:w-1/2 glass p-4 rounded-3xl shadow-xl preserve-3d" data-tilt data-tilt-max="5" data-tilt-glare data-tilt-max-glare="0.2">
+                    <div class="translate-z-10">
+                        <!-- AQUI_TU_IMAGEN_COMISIONES: Reemplaza el link src por tu tabla de precios -->
+                        <img src="https://placehold.co/800x1000/FDF2F8/FDA4AF?text=Image+Commissions\n(Prices+and+Examples)" alt="Tabla de Comisiones" class="w-full h-auto rounded-2xl shadow-inner">
+                    </div>
+                </div>
+
+                <div class="w-full lg:w-1/2 flex flex-col gap-8">
+                    <div class="glass p-8 rounded-3xl shadow-sm border border-pink-100">
+                        <h3 class="text-2xl font-bold text-nursery-dark mb-6 flex items-center gap-2">
+                            <i class="fa-solid fa-clipboard-list text-nursery-rose"></i> <span data-i18n="com-rules-title">Boundaries & Rules</span>
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-bold text-green-500 mb-3 flex items-center gap-2">
+                                    <i class="fa-solid fa-check-circle"></i> <span data-i18n="com-dos">I will draw / Do's</span>
+                                </h4>
+                                <ul class="text-sm space-y-2 text-gray-600">
+                                    <li><i class="fa-solid fa-caret-right text-nursery-rose mr-1"></i> <span data-i18n="com-dos-1">3D ABDL Art (Diapers, pacifiers, etc)</span></li>
+                                    <li><i class="fa-solid fa-caret-right text-nursery-rose mr-1"></i> <span data-i18n="com-dos-2">Nursery Environments</span></li>
+                                    <li><i class="fa-solid fa-caret-right text-nursery-rose mr-1"></i> <span data-i18n="com-dos-3">OC's (Original Characters)</span></li>
+                                    <li><i class="fa-solid fa-caret-right text-nursery-rose mr-1"></i> <span data-i18n="com-dos-4">3D Props and toys</span></li>
+                                </ul>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-bold text-red-400 mb-3 flex items-center gap-2">
+                                    <i class="fa-solid fa-times-circle"></i> <span data-i18n="com-donts">I won't draw / Don'ts</span>
+                                </h4>
+                                <ul class="text-sm space-y-2 text-gray-600">
+                                    <li><i class="fa-solid fa-caret-right text-gray-400 mr-1"></i> <span data-i18n="com-donts-1">NS** (Explicit content forbidden)</span></li>
+                                    <li><i class="fa-solid fa-caret-right text-gray-400 mr-1"></i> <span data-i18n="com-donts-2">Gore or violence</span></li>
+                                    <li><i class="fa-solid fa-caret-right text-gray-400 mr-1"></i> <span data-i18n="com-donts-3">Other's styles / Tracing</span></li>
+                                    <li><i class="fa-solid fa-caret-right text-gray-400 mr-1"></i> <span data-i18n="com-donts-4">Political/Religious themes</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass p-8 rounded-3xl shadow-sm border border-pink-100 text-center">
+                        <h3 class="text-xl font-bold text-nursery-dark mb-2" data-i18n="com-order-title">Ready to order?</h3>
+                        <p class="text-sm text-gray-500 mb-6" data-i18n="com-order-desc">Contact me on Discord to discuss your idea and then we'll proceed with payment.</p>
+                        
+                        <div class="flex flex-col gap-4">
+                            <!-- AQUI_TU_LINK_DISCORD_PEDIDOS: Pon el link de tu discord en href="" -->
+                            <a href="LINK_DE_TU_DISCORD_AQUI" target="_blank" class="w-full py-3 rounded-2xl font-bold text-white bg-[#5865F2] hover:bg-[#4752C4] transition-all shadow-md flex justify-center items-center gap-2">
+                                <i class="fa-brands fa-discord text-xl"></i> <span data-i18n="com-discord">Talk to me on Discord</span>
+                            </a>
+                            <!-- AQUI_TU_LINK_PAYPAL: Pon el link de tu paypal (paypal.me) en href="" -->
+                            <a href="LINK_DE_TU_PAYPAL_AQUI" target="_blank" class="w-full py-3 rounded-2xl font-bold text-[#003087] bg-[#FFC439] hover:bg-[#F4BB33] transition-all shadow-md flex justify-center items-center gap-2 block text-center">
+                                <i class="fa-brands fa-paypal text-xl"></i> <span data-i18n="com-paypal">Pay with PayPal</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="w-full bg-[#2A1F2D] border-t border-[#3D2C42] py-16 px-6 relative z-10 shadow-[0_-10px_30px_rgba(42,31,45,0.3)] mt-10">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-10">
+                <h3 class="text-xl font-bold text-pink-50 mb-2" data-i18n="foot-title">Connect with me!</h3>
+                <div class="w-12 h-1 bg-nursery-rose mx-auto rounded-full"></div>
+            </div>
+
+            <div id="socials" class="flex flex-wrap justify-center gap-8 md:gap-12">
+                <div class="flex flex-col items-center gap-3 group">
+                    <!-- AQUI_TU_LINK_DISCORD_FOOTER: Pon tu link en href="" -->
+                    <a href="LINK_DE_TU_DISCORD_AQUI" target="_blank" class="w-16 h-16 rounded-full bg-white flex items-center justify-center text-2xl text-gray-600 hover:text-white hover:bg-[#5865F2] hover:scale-110 transition-all duration-300 shadow-lg border-none" title="Discord">
+                        <i class="fa-brands fa-discord"></i>
+                    </a>
+                    <span class="text-xs text-pink-200/70 font-bold tracking-widest group-hover:text-pink-100 transition-colors">DISCORD</span>
+                </div>
+                <div class="flex flex-col items-center gap-3 group">
+                    <!-- AQUI_TU_LINK_BLUESKY: Pon tu link en href="" -->
+                    <a href="LINK_DE_TU_BLUESKY_AQUI" target="_blank" class="w-16 h-16 rounded-full bg-white flex items-center justify-center text-2xl text-gray-600 hover:text-white hover:bg-[#0085FF] hover:scale-110 transition-all duration-300 shadow-lg border-none" title="Bluesky">
+                        <i class="fa-solid fa-cloud"></i>
+                    </a>
+                    <span class="text-xs text-pink-200/70 font-bold tracking-widest group-hover:text-pink-100 transition-colors">BLUESKY</span>
+                </div>
+                <div class="flex flex-col items-center gap-3 group">
+                    <!-- AQUI_TU_LINK_TWITTER: Pon tu link en href="" -->
+                    <a href="LINK_DE_TU_TWITTER_AQUI" target="_blank" class="w-16 h-16 rounded-full bg-white flex items-center justify-center text-2xl text-gray-600 hover:text-white hover:bg-black hover:scale-110 transition-all duration-300 shadow-lg border-none" title="X (Twitter)">
+                        <i class="fa-brands fa-x-twitter"></i>
+                    </a>
+                    <span class="text-xs text-pink-200/70 font-bold tracking-widest group-hover:text-pink-100 transition-colors">TWITTER / X</span>
+                </div>
+                <div class="flex flex-col items-center gap-3 group">
+                    <!-- AQUI_TU_LINK_INSTAGRAM: Pon tu link en href="" -->
+                    <a href="LINK_DE_TU_INSTAGRAM_AQUI" target="_blank" class="w-16 h-16 rounded-full bg-white flex items-center justify-center text-2xl text-gray-600 hover:text-white hover:bg-gradient-to-tr hover:from-[#F56040] hover:to-[#833AB4] hover:scale-110 transition-all duration-300 shadow-lg border-none" title="Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <span class="text-xs text-pink-200/70 font-bold tracking-widest group-hover:text-pink-100 transition-colors">INSTAGRAM</span>
+                </div>
+            </div>
+
+            <div class="mt-16 pt-8 border-t border-[#3D2C42] text-sm text-pink-200/50 flex flex-col items-center">
+                <i class="fa-solid fa-heart text-nursery-rose mb-2 text-xl hover:scale-125 transition-transform cursor-pointer"></i>
+                <p data-i18n="foot-copy">&copy; 2026 Abigail 3D Art. All rights reserved.</p>
+                <p class="mt-2 text-xs opacity-60" data-i18n="foot-made">Designed with love and 3D interactions.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+    
+    <script>
+        // --- TRANSLATION SYSTEM (i18n) ---
+        const translations = {
+            en: {
+                "age-title": "Content Warning",
+                "age-desc": "This website contains material related to the ABDL community and is restricted to adults 18+.<br><br>Are you over 18?",
+                "age-no": "No, leave",
+                "age-yes": "Yes, enter",
+                "nav-gal": "Gallery",
+                "nav-com": "Commissions",
+                "nav-soc": "Socials",
+                "hero-badge": "3D/2D ABDL Artist",
+                "hero-title-1": "Welcome to my",
+                "hero-title-2": "Official Web",
+                "hero-desc": "Hi! I'm Abigail. I specialize in creating 3D and soon 2D art for the community. Explore my portfolio and discover how I can bring your ideas to life.",
+                "hero-btn-1": "Commission Me",
+                "hero-btn-2": "View My Art",
+                "gal-title": "Artwork",
+                "gal-note-title": "Important Note about my Work:",
+                "gal-note-desc": "All my art is modeled and illustrated using <strong>Blender 4.1.1</strong>. My work is created from a purely artistic perspective, like mental regression, without any intention to incite fetishism. <strong>I clarify that all characters depicted in my works are strictly of legal age (18+).</strong>",
+                "gal-folder1": "Personal Art",
+                "gal-folder1-sub": "Own Projects",
+                "gal-folder2": "Commissions",
+                "gal-folder2-sub": "Commisions Works",
+                "gal-open": "Open",
+                "gal-soon": "Coming Soon: 2D Art & Illustrations",
+                "com-title": "Commissions",
+                "com-status-label": "Current status:",
+                "com-status-val": "OPEN",
+                "com-rules-title": "Boundaries & Rules",
+                "com-dos": "I do / Do's",
+                "com-dos-1": "3D ABDL Art (Diapers, pacifiers, etc)",
+                "com-dos-2": "Nursery Environments",
+                "com-dos-3": "OC's (Original Characters)",
+                "com-dos-4": "3D Props and toys",
+                "com-donts": "I don't / Don'ts",
+                "com-donts-1": "NS** (Explicit content forbidden)",
+                "com-donts-2": "Gore or violence",
+                "com-donts-3": "Other's styles / Tracing",
+                "com-donts-4": "Political/Religious themes",
+                "com-order-title": "Ready to order?",
+                "com-order-desc": "Contact me on Discord to discuss your idea and then we'll proceed with payment.",
+                "com-discord": "Talk to me on Discord",
+                "com-paypal": "Pay with PayPal",
+                "foot-title": "Connect with me!",
+                "foot-copy": "&copy; 2026 Abigail 3D Art. All rights reserved.",
+                "foot-made": "Designed with love and 3D interactions.",
+                // Dynamic JS texts
+                "folder-personal": "Personal Art",
+                "folder-commissions": "Commissions",
+                "renders-word": "Renders"
+            },
+            es: {
+                "age-title": "Advertencia de Contenido",
+                "age-desc": "Este sitio web contiene material relacionado con la comunidad ABDL y está restringido a mayores de 18 años.<br><br>¿Eres mayor de 18 años?",
+                "age-no": "No, salir",
+                "age-yes": "Sí, entrar",
+                "nav-gal": "Galería",
+                "nav-com": "Comisiones",
+                "nav-soc": "Redes",
+                "hero-badge": "Artista 3D/2D ABDL",
+                "hero-title-1": "Bienvenidx a mi",
+                "hero-title-2": "Web Oficial",
+                "hero-desc": "¡Hola! Soy Abigail. Me especializo en crear arte 3D y próximamente 2D para la comunidad. Explora mi portafolio y descubre cómo puedo dar vida a tus ideas.",
+                "hero-btn-1": "Pedir una Comisión",
+                "hero-btn-2": "Ver mi Arte",
+                "gal-title": "Artwork",
+                "gal-note-title": "Nota Importante sobre mi Trabajo:",
+                "gal-note-desc": "Todo mi arte es modelado e ilustrado utilizando <strong>Blender 4.1.1</strong>. Mi trabajo es creado desde una perspectiva puramente artística, como la regresión mental, sin intenciones de incitar al fetichismo. <strong>Aclaro que todos los personajes representados en mis obras son estrictamente mayores de edad (+18)</strong>.",
+                "gal-folder1": "Arte Personal",
+                "gal-folder1-sub": "Proyectos Propios",
+                "gal-folder2": "Comisiones",
+                "gal-folder2-sub": "Comisiones",
+                "gal-open": "Abrir",
+                "gal-soon": "Próximamente: Arte 2D e Ilustraciones",
+                "com-title": "Comisiones",
+                "com-status-label": "Estado actual:",
+                "com-status-val": "ABIERTAS",
+                "com-rules-title": "Límites y Reglas",
+                "com-dos": "Sí hago (Do's)",
+                "com-dos-1": "Arte 3D ABDL (Pañales, chupones, etc)",
+                "com-dos-2": "Entornos de Guardería (Nursery)",
+                "com-dos-3": "OC's (Personajes Originales)",
+                "com-dos-4": "Props y juguetes 3D",
+                "com-donts": "No hago (Don'ts)",
+                "com-donts-1": "NS** (Contenido explícito prohibido)",
+                "com-donts-2": "Gore o violencia",
+                "com-donts-3": "Estilos ajenos / Copias",
+                "com-donts-4": "Temáticas políticas/religiosas",
+                "com-order-title": "¿Listo para ordenar?",
+                "com-order-desc": "Contáctame por Discord para discutir tu idea y luego procederemos al pago.",
+                "com-discord": "Hablame al Discord",
+                "com-paypal": "Pagar con PayPal",
+                "foot-title": "¡Conecta conmigo!",
+                "foot-copy": "&copy; 2026 Abigail 3D Art. Todos los derechos reservados.",
+                "foot-made": "Diseñado con cariño e interacciones 3D.",
+                // Dynamic JS texts
+                "folder-personal": "Arte Personal",
+                "folder-commissions": "Comisiones",
+                "renders-word": "Renders"
+            }
+        };
+
+        let currentLang = 'en'; // Default language
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang; // Update HTML lang tag
+            
+            // Update static HTML elements
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+
+            // Update language indicators in Nav
+            document.getElementById('lang-indicator').innerText = lang.toUpperCase();
+            document.getElementById('lang-indicator-mobile').innerText = lang.toUpperCase();
+        }
+
+        function toggleLang() {
+            setLanguage(currentLang === 'en' ? 'es' : 'en');
+            // If a gallery is open, refresh its title to update the translation
+            const modalTitle = document.getElementById('modal-title');
+            if (document.getElementById('gallery-modal').style.display === 'flex') {
+                if(modalTitle.innerHTML.includes('arrow-left')) {
+                    // It's a sub-gallery, keep it as is or handle complex re-render 
+                    // (for simplicity, they can just close and reopen)
+                } else {
+                    const isCommissions = modalTitle.innerHTML.includes('Com');
+                    const key = isCommissions ? 'folder-commissions' : 'folder-personal';
+                    modalTitle.innerHTML = `<i class="fa-regular fa-folder-open text-nursery-rose"></i> ${translations[currentLang][key]}`;
+                }
+            }
+        }
+
+        // --- ART DATABASE ---
+        const artDatabase = {
+            personal: {
+                isNested: false,
+                images: [
+                    "Images/after brake.jpg",
+                    "Images/breastfeeding abby time.jpg",
+                    "Images/Abby abdl trend.jpg",
+                ]
+            },
+            commissions: {
+                isNested: true,
+                subcategories: {
+                    "2026": [
+                        "Images/baby zoey.jpg",
+                        "Images/messy zoey alt.jpg",
+                        "Images/Baby Kimiko.jpg",
+                        "Images/dommi play day.jpg",
+                        "Images/Mina cobasky.png",
+                        "Images/Baby Zoey Remake 1.png",
+                        "Images/Baby Zoey Remake 2.png",
+                        "Images/Robin Park Walk.png",
+                        "Images/silly ab momo.jpg",
+                    ],
+                    "2027": [
+                    ]
+                }
+            }
+        };
+
+        // Masonry Renderer
+        function renderImages(imagesArray) {
+            const modalGrid = document.getElementById('modal-grid');
+            modalGrid.className = "columns-1 md:columns-2 gap-4 md:gap-6";
+            modalGrid.innerHTML = ''; 
+            
+            imagesArray.forEach(src => {
+                const imgContainer = document.createElement('div');
+                imgContainer.className = "bg-white p-2 md:p-3 rounded-2xl shadow-sm border border-pink-50 break-inside-avoid mb-4 md:mb-6 w-full cursor-pointer relative group inline-block";
+                imgContainer.onclick = () => openLightbox(src);
+                
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = "Artwork";
+                img.className = 'w-full h-auto rounded-xl block transition-transform duration-300 group-hover:opacity-90';
+                
+                const overlay = document.createElement('div');
+                overlay.className = "absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10";
+                overlay.innerHTML = '<div class="w-14 h-14 bg-nursery-rose/90 text-white rounded-full flex items-center justify-center shadow-xl transform scale-50 group-hover:scale-100 transition-transform duration-300"><i class="fa-solid fa-magnifying-glass-plus text-2xl"></i></div>';
+
+                imgContainer.appendChild(img);
+                imgContainer.appendChild(overlay);
+                modalGrid.appendChild(imgContainer);
+            });
+        }
+
+        // Open main folders
+        function openGallery(category) {
+            const modal = document.getElementById('gallery-modal');
+            const modalContent = document.getElementById('gallery-modal-content');
+            const modalTitle = document.getElementById('modal-title');
+            const modalGrid = document.getElementById('modal-grid');
+            
+            const data = artDatabase[category];
+            const titleKey = category === 'personal' ? 'folder-personal' : 'folder-commissions';
+            modalTitle.innerHTML = `<i class="fa-regular fa-folder-open text-nursery-rose"></i> ${translations[currentLang][titleKey]}`;
+            
+            if (data.isNested) {
+                modalGrid.innerHTML = '';
+                modalGrid.className = "grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-2xl mx-auto items-center mt-6 mb-10";
+                
+                Object.keys(data.subcategories).forEach(year => {
+                    const amount = data.subcategories[year].length;
+                    const renderWord = translations[currentLang]["renders-word"];
+
+                    const yearCard = document.createElement('div');
+                    yearCard.className = "glass p-8 md:p-10 rounded-3xl text-center cursor-pointer transform transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] shadow-xl border-2 border-white bg-white/60 hover:bg-white/90 group";
+                    yearCard.onclick = () => openSubGallery(category, year);
+                    
+                    yearCard.innerHTML = `
+                        <div class="w-20 h-20 mx-auto bg-gradient-to-tr from-nursery-rose to-purple-300 text-white rounded-[1.5rem] flex items-center justify-center text-3xl mb-5 shadow-lg shadow-pink-200 group-hover:rotate-12 transition-transform">
+                            <i class="fa-solid fa-calendar-days"></i>
+                        </div>
+                        <h4 class="text-4xl font-extrabold text-nursery-dark tracking-tight mb-3">${year}</h4>
+                        <div class="inline-block px-4 py-1.5 rounded-full bg-nursery-pink text-nursery-rose text-xs font-extrabold tracking-widest uppercase border border-pink-200 shadow-sm">
+                            ${amount} ${renderWord}
+                        </div>
+                    `;
+                    modalGrid.appendChild(yearCard);
+                });
+            } else {
+                renderImages(data.images);
+            }
+            
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 10);
+            
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        // Open sub-folders (Years)
+        function openSubGallery(category, year) {
+            const data = artDatabase[category];
+            const modalTitle = document.getElementById('modal-title');
+            const titleKey = category === 'personal' ? 'folder-personal' : 'folder-commissions';
+            
+            modalTitle.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <button onclick="openGallery('${category}')" class="w-10 h-10 rounded-full bg-white text-nursery-rose hover:bg-nursery-rose hover:text-white flex items-center justify-center transition-all duration-300 shadow-md border border-pink-100 hover:-translate-x-1" title="Back">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                    <div class="flex items-center gap-2">
+                        <span class="hidden sm:inline"><i class="fa-regular fa-folder-open text-nursery-rose"></i> ${translations[currentLang][titleKey]} <span class="text-gray-300 mx-1">/</span></span>
+                        <span class="text-purple-400 font-extrabold text-xl md:text-2xl">${year}</span>
+                    </div>
+                </div>
+            `;
+            
+            renderImages(data.subcategories[year]);
+        }
+
+        function closeGallery() {
+            const modal = document.getElementById('gallery-modal');
+            const modalContent = document.getElementById('gallery-modal-content');
+            
+            modal.classList.add('opacity-0');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.style.display = 'none';
+                if(document.getElementById('age-gate').style.display === 'none') {
+                    document.body.style.overflow = 'auto'; 
+                }
+            }, 300); 
+        }
+
+        function openLightbox(src) {
+            const lightbox = document.getElementById('lightbox-modal');
+            const lightboxImg = document.getElementById('lightbox-img');
+            
+            lightboxImg.src = src;
+            lightbox.style.display = 'flex';
+            
+            setTimeout(() => {
+                lightbox.classList.remove('opacity-0');
+                lightboxImg.classList.remove('scale-95');
+                lightboxImg.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox-modal');
+            const lightboxImg = document.getElementById('lightbox-img');
+            
+            lightbox.classList.add('opacity-0');
+            lightboxImg.classList.remove('scale-100');
+            lightboxImg.classList.add('scale-95');
+            
+            setTimeout(() => {
+                lightbox.style.display = 'none';
+            }, 300);
+        }
+
+        function enterSite() {
+            const gate = document.getElementById('age-gate');
+            gate.style.opacity = '0';
+            setTimeout(() => {
+                gate.style.display = 'none';
+                document.body.style.overflow = 'auto'; 
+            }, 500); 
+        }
+
+        function leaveSite() {
+            window.location.href = 'https://www.google.com';
+        }
+
+        // Initialize i18n & Tilt
+        document.addEventListener("DOMContentLoaded", function() {
+            setLanguage('en'); // Set initial language to English
+            document.body.style.overflow = 'hidden'; 
+            
+            VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+                max: 15,
+                speed: 400,
+                glare: true,
+                "max-glare": 0.2,
+                perspective: 1000
+            });
+        });
+    </script>
+</body>
+</html>
