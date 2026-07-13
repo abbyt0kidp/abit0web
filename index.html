@@ -303,12 +303,20 @@
                 <!-- Status Badge -->
                 <div class="mt-8 flex justify-center items-center gap-3">
                     <span class="text-sm font-bold text-gray-500 uppercase tracking-widest" data-i18n="com-status-label">Current status:</span>
-                    <div class="glass px-5 py-2 rounded-full border-2 border-green-300 shadow-md flex items-center gap-3 bg-green-50 hover:-translate-y-1 transition-transform cursor-default">
+                    
+                    <!-- Botón OPEN (Verde) -->
+                    <div id="badge-open" class="glass px-5 py-2 rounded-full border-2 border-green-300 shadow-md items-center gap-3 bg-green-50 hover:-translate-y-1 transition-transform cursor-default hidden">
                         <span class="relative flex h-3 w-3">
                             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                             <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                         </span>
                         <span class="font-extrabold text-green-600 tracking-wide mt-0.5" data-i18n="com-status-val">OPEN</span>
+                    </div>
+
+                    <!-- Botón CLOSED (Rojo) -->
+                    <div id="badge-closed" class="glass px-5 py-2 rounded-full border-2 border-red-300 shadow-md items-center gap-3 bg-red-50 hover:-translate-y-1 transition-transform cursor-default hidden">
+                        <i class="fa-solid fa-lock text-red-500 animate-pulse text-sm"></i>
+                        <span class="font-extrabold text-red-600 tracking-wide mt-0.5" data-i18n="com-status-closed">CLOSED</span>
                     </div>
                 </div>
             </div>
@@ -453,6 +461,7 @@
                 "com-title": "Commissions",
                 "com-status-label": "Current status:",
                 "com-status-val": "OPEN",
+                "com-status-closed": "CLOSED",
                 "com-rules-title": "Boundaries & Rules",
                 "com-dos": "I do / Do's",
                 "com-dos-1": "3D ABDL Art (Diapers, pacifiers, etc)",
@@ -502,6 +511,7 @@
                 "com-title": "Comisiones",
                 "com-status-label": "Estado actual:",
                 "com-status-val": "ABIERTAS",
+                "com-status-closed": "CERRADAS",
                 "com-rules-title": "Límites y Reglas",
                 "com-dos": "Sí hago (Do's)",
                 "com-dos-1": "Arte 3D ABDL (Pañales, chupones, etc)",
@@ -526,7 +536,13 @@
                 "renders-word": "Renders"
             }
         };
-
+// ==========================================
+        // ⚙️ INTERRUPTOR DE COMISIONES ⚙️
+        // Cambia la palabra 'true' por 'false' para cerrar tus comisiones.
+        // ==========================================
+        const COMMISSIONS_OPEN = true; 
+        // ==========================================
+        
         let currentLang = 'en'; // Default language
 
         function setLanguage(lang) {
@@ -746,7 +762,18 @@
         // Initialize i18n & Tilt
         document.addEventListener("DOMContentLoaded", function() {
             setLanguage('en'); // Set initial language to English
-            document.body.style.overflow = 'hidden'; 
+            document.body.style.overflow = 'hidden';
+            // Activar el botón de comisiones según el interruptor
+            const badgeOpen = document.getElementById('badge-open');
+            const badgeClosed = document.getElementById('badge-closed');
+            
+            if (COMMISSIONS_OPEN) {
+                badgeOpen.classList.remove('hidden');
+                badgeOpen.classList.add('flex');
+            } else {
+                badgeClosed.classList.remove('hidden');
+                badgeClosed.classList.add('flex');
+            }
             
             VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
                 max: 15,
