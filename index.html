@@ -273,22 +273,28 @@
         </div>
     </section>
 
-    <!-- MODAL DE GALERÍA -->
+<!-- MODAL DE GALERÍA -->
     <div id="gallery-modal" class="fixed inset-0 z-[60] hidden bg-nursery-pink/80 backdrop-blur-md items-center justify-center p-4 sm:p-6 opacity-0 transition-opacity duration-300">
-        <div class="glass w-full max-w-6xl max-h-[90vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden border-2 border-white transform scale-95 transition-transform duration-300" id="gallery-modal-content">
-            <div class="p-4 md:p-6 border-b border-pink-100 flex justify-between items-center bg-white/70 shrink-0">
-                <h3 id="modal-title" class="text-xl md:text-2xl font-extrabold text-nursery-dark flex items-center gap-2">
+        <!-- Caja Principal con Degradado y Cristal -->
+        <div class="w-full max-w-6xl max-h-[90vh] rounded-[2rem] shadow-[0_20px_50px_-12px_rgba(0,0,0,0.2)] flex flex-col overflow-hidden border-[3px] border-white transform scale-95 transition-transform duration-300 bg-gradient-to-br from-white/95 via-white/90 to-pink-50/80 backdrop-blur-xl relative" id="gallery-modal-content">
+            
+            <!-- Cabecera Flotante Esmerilada -->
+            <div class="p-5 md:p-6 flex justify-between items-center bg-white/50 backdrop-blur-md shrink-0 z-20 shadow-sm border-b border-pink-100/50">
+                <h3 id="modal-title" class="text-xl md:text-2xl font-extrabold text-nursery-dark flex items-center gap-3 drop-shadow-sm">
                     <i class="fa-regular fa-folder-open text-nursery-rose"></i> Gallery
                 </h3>
-                <button onclick="closeGallery()" class="w-10 h-10 rounded-full bg-white text-gray-500 hover:text-nursery-rose hover:bg-pink-50 flex items-center justify-center shadow-sm transition-colors text-xl">
+                <button onclick="closeGallery()" class="w-10 h-10 rounded-full bg-white text-gray-400 hover:text-nursery-rose hover:bg-pink-50 flex items-center justify-center shadow-md border border-pink-50 transition-all duration-300 hover:rotate-90 hover:scale-110 text-xl z-30" title="Close">
                     <i class="fa-solid fa-times"></i>
                 </button>
             </div>
-            <div class="p-4 md:p-6 overflow-y-auto flex-grow h-full" id="modal-scroll-area">
+            
+            <!-- Lienzo de Exhibición (Con sombra interna) -->
+            <div class="p-6 md:p-8 overflow-y-auto flex-grow h-full shadow-[inset_0_10px_30px_rgba(0,0,0,0.03)] bg-gradient-to-b from-transparent to-purple-50/20" id="modal-scroll-area">
                 <div id="modal-grid" class="max-w-5xl mx-auto">
                     <!-- Dynamic injection -->
                 </div>
             </div>
+            
         </div>
     </div>
 
