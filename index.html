@@ -616,7 +616,7 @@
             }
         }
 
-        // --- ART DATABASE ---
+// --- ART DATABASE ---
         const artDatabase = {
             personal: {
                 isNested: false,
@@ -635,8 +635,8 @@
                         "Images/Baby Kimiko.jpg",
                         "Images/dommi play day.jpg",
                         "Images/Mina cobasky.png",
-                        "Images/Baby Zoey Remake1.png",
-                        "Images/Baby Zoey Remake2.png",
+                        "Images/Baby Zoey Remake 1.png",
+                        "Images/Baby Zoey Remake 2.png",
                         "Images/Robin Park Walk.png",
                         "Images/silly ab momo.jpg",
                     ],
@@ -653,18 +653,15 @@
             modalGrid.innerHTML = ''; 
             
             imagesArray.forEach(src => {
-                // Nuevo contenedor sin padding y con bordes redondeados directos
                 const imgContainer = document.createElement('div');
                 imgContainer.className = "rounded-2xl shadow-md break-inside-avoid mb-4 md:mb-6 w-full cursor-pointer relative group inline-block overflow-hidden border-2 border-white/60 hover:shadow-xl transition-shadow duration-300 transform translate-z-0";
                 imgContainer.onclick = () => openLightbox(src);
                 
-                // Imagen con zoom suave
                 const img = document.createElement('img');
                 img.src = src;
                 img.alt = "Artwork";
                 img.className = 'w-full h-auto block transition-transform duration-500 group-hover:scale-105';
                 
-                // Overlay oscuro elegante con botón de ampliar
                 const overlay = document.createElement('div');
                 overlay.className = "absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-10";
                 overlay.innerHTML = '<div class="w-14 h-14 bg-nursery-rose text-white rounded-full flex items-center justify-center shadow-2xl transform scale-50 group-hover:scale-100 transition-transform duration-300"><i class="fa-solid fa-expand text-xl"></i></div>';
@@ -676,7 +673,25 @@
         }
 
         // Open main folders
-        const yearCard = document.createElement('div');
+        function openGallery(category) {
+            const modal = document.getElementById('gallery-modal');
+            const modalContent = document.getElementById('gallery-modal-content');
+            const modalTitle = document.getElementById('modal-title');
+            const modalGrid = document.getElementById('modal-grid');
+            
+            const data = artDatabase[category];
+            const titleKey = category === 'personal' ? 'folder-personal' : 'folder-commissions';
+            modalTitle.innerHTML = `<i class="fa-regular fa-folder-open text-nursery-rose"></i> ${translations[currentLang][titleKey]}`;
+            
+            if (data.isNested) {
+                modalGrid.innerHTML = '';
+                modalGrid.className = "grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-2xl mx-auto items-center mt-6 mb-10";
+                
+                Object.keys(data.subcategories).forEach(year => {
+                    const amount = data.subcategories[year].length;
+                    const renderWord = translations[currentLang]["renders-word"];
+
+                    const yearCard = document.createElement('div');
                     yearCard.className = "glass p-8 md:p-10 rounded-[2rem] text-center cursor-pointer transform transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl border-2 border-white bg-gradient-to-b from-white/90 to-pink-50/50 group relative overflow-hidden";
                     yearCard.onclick = () => openSubGallery(category, year);
                     
@@ -751,8 +766,8 @@
             
             setTimeout(() => {
                 lightbox.classList.remove('opacity-0');
-                lightboxImg.classList.remove('scale-95');
-                lightboxImg.classList.add('scale-100');
+                lightboxImg.classList.remove('scale-100');
+                lightboxImg.classList.add('scale-95');
             }, 10);
         }
 
@@ -769,7 +784,7 @@
             }, 300);
         }
 
-function enterSite() {
+        function enterSite() {
             const gate = document.getElementById('age-gate');
             gate.style.opacity = '0';
             setTimeout(() => {
@@ -784,9 +799,18 @@ function enterSite() {
 
         // Initialize i18n & Tilt
         document.addEventListener("DOMContentLoaded", function() {
-            setLanguage('en'); // Set initial language to English
-            document.body.style.overflow = 'hidden';
-            // Activar el botón de comisiones y slots según el interruptor
+            setLanguage('en'); 
+            document.body.style.overflow = 'hidden'; 
+            
+            VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+                max: 15,
+                speed: 400,
+                glare: true,
+                "max-glare": 0.2,
+                perspective: 1000
+            });
+
+            // Lógica de los Slots y Comisiones
             const badgeOpen = document.getElementById('badge-open');
             const badgeClosed = document.getElementById('badge-closed');
             const slotsContainer = document.getElementById('slots-container');
@@ -794,33 +818,34 @@ function enterSite() {
             const slotsBadge = document.getElementById('slots-badge');
             const slotsIcon = document.getElementById('slots-icon');
             
-            if (COMMISSIONS_OPEN) {
-                badgeOpen.classList.remove('hidden');
-                badgeOpen.classList.add('flex');
-                
-                // Mostrar slots (Opción A)
-                slotsContainer.classList.remove('hidden');
-                slotsContainer.classList.add('flex');
-                
-                // Lógica automática si se llenan los slots
-                if (SLOTS_DISPONIBLES <= 0) {
-                    slotsText.setAttribute('data-i18n', 'com-slots-full');
-                    slotsText.innerHTML = translations[currentLang]['com-slots-full'];
-                    slotsBadge.classList.replace('border-purple-200', 'border-gray-300');
-                    slotsBadge.classList.replace('bg-purple-50', 'bg-gray-100');
-                    slotsText.classList.replace('text-purple-600', 'text-gray-500');
-                    slotsIcon.className = "fa-solid fa-ban text-gray-400 text-sm";
+            if (typeof COMMISSIONS_OPEN !== 'undefined') {
+                if (COMMISSIONS_OPEN) {
+                    if (badgeOpen) badgeOpen.classList.remove('hidden'), badgeOpen.classList.add('flex');
+                    if (slotsContainer) slotsContainer.classList.remove('hidden'), slotsContainer.classList.add('flex');
+                    
+                    if (SLOTS_DISPONIBLES <= 0) {
+                        if (slotsText) {
+                            slotsText.setAttribute('data-i18n', 'com-slots-full');
+                            slotsText.innerHTML = translations[currentLang]['com-slots-full'] || 'FULL';
+                            slotsText.classList.replace('text-purple-600', 'text-gray-500');
+                        }
+                        if (slotsBadge) {
+                            slotsBadge.classList.replace('border-purple-200', 'border-gray-300');
+                            slotsBadge.classList.replace('bg-purple-50', 'bg-gray-100');
+                        }
+                        if (slotsIcon) slotsIcon.className = "fa-solid fa-ban text-gray-400 text-sm";
+                    } else {
+                        if (slotsText) {
+                            slotsText.removeAttribute('data-i18n');
+                            slotsText.innerText = `${SLOTS_DISPONIBLES} / ${SLOTS_TOTALES}`;
+                        }
+                    }
                 } else {
-                    slotsText.removeAttribute('data-i18n');
-                    slotsText.innerText = `${SLOTS_DISPONIBLES} / ${SLOTS_TOTALES}`;
+                    if (badgeClosed) badgeClosed.classList.remove('hidden'), badgeClosed.classList.add('flex');
+                    if (slotsContainer) slotsContainer.classList.add('hidden'), slotsContainer.classList.remove('flex');
                 }
-            } else {
-                badgeClosed.classList.remove('hidden');
-                badgeClosed.classList.add('flex');
-                // Ocultar slots automáticamente al cerrar
-                slotsContainer.classList.add('hidden');
-                slotsContainer.classList.remove('flex');
             }
+        });
             
             VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
                 max: 15,
