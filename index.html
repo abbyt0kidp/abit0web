@@ -90,19 +90,20 @@
 <body class="text-nursery-text antialiased font-sans relative">
 
     <!-- AGE GATE SPLASH SCREEN -->
-    <div id="age-gate" class="fixed inset-0 z-50 flex items-center justify-center bg-nursery-pink/80 backdrop-blur-md transition-opacity duration-500">
-        <div class="glass p-10 md:p-14 rounded-3xl shadow-2xl max-w-md w-full mx-4 text-center transform transition-transform scale-100 border-2 border-white preserve-3d" data-tilt data-tilt-glare data-tilt-max-glare="0.2">
+    <div id="age-gate" class="fixed inset-0 z-[100] flex items-center justify-center bg-nursery-pink/80 backdrop-blur-md transition-opacity duration-500 px-4">
+        <!-- Tarjeta ajustada para móviles, con Tilt solo en PC (data-tilt activado por JS) -->
+        <div id="tilt-card" class="glass p-8 sm:p-10 md:p-14 rounded-3xl md:rounded-[2.5rem] shadow-2xl max-w-sm md:max-w-md w-full text-center transform transition-transform scale-100 border-2 border-white preserve-3d">
             <div class="translate-z-10">
-                <div class="w-20 h-20 bg-nursery-rose text-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-pink-200">
-                    <i class="fa-solid fa-lock text-3xl"></i>
+                <div class="w-16 h-16 md:w-20 md:h-20 bg-nursery-rose text-white rounded-full flex items-center justify-center mx-auto mb-5 md:mb-6 shadow-lg shadow-pink-200">
+                    <i class="fa-solid fa-lock text-2xl md:text-3xl"></i>
                 </div>
-                <h1 class="text-3xl font-extrabold text-nursery-dark mb-4" data-i18n="age-title">Content Warning</h1>
-                <p class="mb-8 text-nursery-text text-lg" data-i18n="age-desc">This website contains material related to the ABDL community and is restricted to adults 18+.<br><br>Are you over 18?</p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button onclick="leaveSite()" class="px-6 py-3 rounded-full font-bold text-nursery-rose bg-white border-2 border-nursery-rose hover:bg-nursery-pink transition-all shadow-md" data-i18n="age-no">
+                <h1 class="text-2xl md:text-3xl font-extrabold text-nursery-dark mb-3 md:mb-4 drop-shadow-sm" data-i18n="age-title">Content Warning</h1>
+                <p class="mb-6 md:mb-8 text-nursery-text text-sm md:text-lg font-medium leading-relaxed" data-i18n="age-desc">This website contains material related to the ABDL community and is restricted to adults 18+.<br><br>Are you over 18?</p>
+                <div class="flex flex-col gap-3 justify-center w-full px-2">
+                    <button onclick="leaveSite()" class="w-full py-3 md:py-3.5 rounded-full font-bold text-nursery-rose bg-white border-2 border-nursery-rose hover:bg-nursery-pink transition-all shadow-md text-sm md:text-base" data-i18n="age-no">
                         No, leave
                     </button>
-                    <button onclick="enterSite()" class="px-6 py-3 rounded-full font-bold text-white bg-nursery-rose hover:bg-pink-500 transition-all shadow-lg shadow-pink-300 hover:-translate-y-1" data-i18n="age-yes">
+                    <button onclick="enterSite()" class="w-full py-3 md:py-3.5 rounded-full font-bold text-white bg-nursery-rose hover:bg-pink-500 transition-all shadow-lg shadow-pink-300 md:hover:-translate-y-1 text-sm md:text-base" data-i18n="age-yes">
                         Yes, enter
                     </button>
                 </div>
@@ -760,13 +761,25 @@
             setLanguage('en'); 
             document.body.style.overflow = 'hidden'; 
             
-            VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
-                max: 15,
-                speed: 400,
-                glare: true,
-                "max-glare": 0.2,
-                perspective: 1000
-            });
+// Inicializar Tilt solo en pantallas grandes (PC/Tablets) para ahorrar rendimiento en móviles
+            if (window.innerWidth >= 768) {
+                // Aplicar a los elementos que ya tenían data-tilt
+                VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+                    max: 15,
+                    speed: 400,
+                    glare: true,
+                    "max-glare": 0.2,
+                    perspective: 1000
+                });
+                // Aplicar explícitamente a la tarjeta del Age Gate
+                VanillaTilt.init(document.getElementById("tilt-card"), {
+                    max: 15,
+                    speed: 400,
+                    glare: true,
+                    "max-glare": 0.2,
+                    perspective: 1000
+                });
+            }
 
             const badgeOpen = document.getElementById('badge-open');
             const badgeClosed = document.getElementById('badge-closed');
