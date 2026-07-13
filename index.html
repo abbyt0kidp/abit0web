@@ -319,6 +319,16 @@
                         <span class="font-extrabold text-red-600 tracking-wide mt-0.5" data-i18n="com-status-closed">CLOSED</span>
                     </div>
                 </div>
+
+                <!-- Indicador de Slots -->
+                <div id="slots-container" class="mt-4 justify-center items-center gap-3 hidden">
+                    <span class="text-sm font-bold text-gray-500 uppercase tracking-widest" data-i18n="com-slots-label">Available Slots:</span>
+                    
+                    <div id="slots-badge" class="glass px-4 py-1.5 rounded-full border-2 border-purple-200 shadow-sm flex items-center gap-2 bg-purple-50 transition-transform cursor-default">
+                        <i id="slots-icon" class="fa-solid fa-star text-purple-400 text-sm"></i>
+                        <span id="slots-text" class="font-extrabold text-purple-600 tracking-wide mt-0.5">0 / 0</span>
+                    </div>
+                </div>
             </div>
 
             <div class="flex flex-col lg:flex-row gap-12 items-start">
@@ -462,6 +472,8 @@
                 "com-status-label": "Current status:",
                 "com-status-val": "OPEN",
                 "com-status-closed": "CLOSED",
+                "com-slots-label": "Available Slots:",
+                "com-slots-full": "FULL",
                 "com-rules-title": "Boundaries & Rules",
                 "com-dos": "I do / Do's",
                 "com-dos-1": "3D ABDL Art (Diapers, pacifiers, etc)",
@@ -512,6 +524,8 @@
                 "com-status-label": "Estado actual:",
                 "com-status-val": "ABIERTAS",
                 "com-status-closed": "CERRADAS",
+                "com-slots-label": "Cupos Disponibles:",
+                "com-slots-full": "LLENOS",
                 "com-rules-title": "Límites y Reglas",
                 "com-dos": "Sí hago (Do's)",
                 "com-dos-1": "Arte 3D ABDL (Pañales, chupones, etc)",
@@ -542,6 +556,10 @@
         // ==========================================
         const COMMISSIONS_OPEN = false; 
         // ==========================================
+        // 🎫 SLOTS DE COMISIONES 🎫
+        // Cambia los números aquí para actualizar tus cupos
+        const SLOTS_TOTALES = 5;
+        const SLOTS_DISPONIBLES = 3;
         
         let currentLang = 'en'; // Default language
 
@@ -763,16 +781,40 @@
         document.addEventListener("DOMContentLoaded", function() {
             setLanguage('en'); // Set initial language to English
             document.body.style.overflow = 'hidden';
-            // Activar el botón de comisiones según el interruptor
+            // Activar el botón de comisiones y slots según el interruptor
             const badgeOpen = document.getElementById('badge-open');
             const badgeClosed = document.getElementById('badge-closed');
+            const slotsContainer = document.getElementById('slots-container');
+            const slotsText = document.getElementById('slots-text');
+            const slotsBadge = document.getElementById('slots-badge');
+            const slotsIcon = document.getElementById('slots-icon');
             
             if (COMMISSIONS_OPEN) {
                 badgeOpen.classList.remove('hidden');
                 badgeOpen.classList.add('flex');
+                
+                // Mostrar slots (Opción A)
+                slotsContainer.classList.remove('hidden');
+                slotsContainer.classList.add('flex');
+                
+                // Lógica automática si se llenan los slots
+                if (SLOTS_DISPONIBLES <= 0) {
+                    slotsText.setAttribute('data-i18n', 'com-slots-full');
+                    slotsText.innerHTML = translations[currentLang]['com-slots-full'];
+                    slotsBadge.classList.replace('border-purple-200', 'border-gray-300');
+                    slotsBadge.classList.replace('bg-purple-50', 'bg-gray-100');
+                    slotsText.classList.replace('text-purple-600', 'text-gray-500');
+                    slotsIcon.className = "fa-solid fa-ban text-gray-400 text-sm";
+                } else {
+                    slotsText.removeAttribute('data-i18n');
+                    slotsText.innerText = `${SLOTS_DISPONIBLES} / ${SLOTS_TOTALES}`;
+                }
             } else {
                 badgeClosed.classList.remove('hidden');
                 badgeClosed.classList.add('flex');
+                // Ocultar slots automáticamente al cerrar
+                slotsContainer.classList.add('hidden');
+                slotsContainer.classList.remove('flex');
             }
             
             VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
