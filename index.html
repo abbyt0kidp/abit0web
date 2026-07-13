@@ -120,12 +120,14 @@
         </div>
     </div>
 
-    <!-- NAVIGATION BAR -->
+<!-- NAVIGATION BAR -->
     <nav class="fixed w-full z-40 top-4 px-4 pointer-events-none">
-        <div class="glass max-w-3xl mx-auto rounded-full px-6 py-3 flex justify-between items-center shadow-sm pointer-events-auto border-white/80">
-            <a href="#home" class="font-extrabold text-2xl tracking-tight text-3d-cute inline-block py-1 cursor-pointer">
+        <div class="glass max-w-3xl mx-auto rounded-full px-5 py-2 md:px-6 md:py-3 flex justify-between items-center shadow-sm pointer-events-auto border-white/80">
+            <a href="#home" class="font-extrabold text-xl md:text-2xl tracking-tight text-3d-cute inline-block cursor-pointer">
                 Abit0kidp
             </a>
+            
+            <!-- Menú PC -->
             <div class="hidden md:flex items-center gap-6 font-semibold text-sm text-nursery-text">
                 <a href="#gallery" class="hover:text-nursery-rose transition-colors" data-i18n="nav-gal">Gallery</a>
                 <a href="#commissions" class="hover:text-nursery-rose transition-colors" data-i18n="nav-com">Commissions</a>
@@ -138,11 +140,13 @@
                     <span id="lang-indicator" class="font-bold tracking-wider">EN</span>
                 </button>
             </div>
-            <div class="md:hidden flex items-center gap-4">
-                <button onclick="toggleLang()" class="text-nursery-rose font-bold text-sm bg-white px-2 py-1 rounded-md shadow-sm">
+            
+            <!-- Menú Móvil (Solo Botón de Idioma) -->
+            <div class="md:hidden flex items-center">
+                <button onclick="toggleLang()" class="flex items-center gap-1.5 bg-pink-50/80 text-nursery-rose px-3 py-1 rounded-full shadow-sm border border-pink-100 text-xs font-bold tracking-wider">
+                    <i class="fa-solid fa-globe"></i>
                     <span id="lang-indicator-mobile">EN</span>
                 </button>
-                <div class="text-nursery-dark text-xl"><i class="fa-solid fa-bars"></i></div>
             </div>
         </div>
     </nav>
