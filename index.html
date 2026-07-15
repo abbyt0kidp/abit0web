@@ -123,7 +123,7 @@
     <a href="#gallery" class="hover:text-nursery-rose transition-colors" data-i18n="nav-gal">Gallery</a>
     
     <!-- Este es el nuevo botón oculto por defecto -->
-    <a href="#translations" id="nav-trans-link" class="hidden hover:text-nursery-rose transition-colors font-extrabold text-purple-500">Traducciones</a>
+    <a href="#seccion-traducciones" id="nav-trans-link" class="hidden hover:text-nursery-rose transition-colors font-extrabold text-purple-500">Traducciones</a>
     
     <a href="#commissions" class="hover:text-nursery-rose transition-colors" data-i18n="nav-com">Commissions</a>
     <a href="#socials" class="hover:text-nursery-rose transition-colors" data-i18n="nav-soc">Socials</a>
@@ -294,7 +294,7 @@
     </div>
 
     <!-- TRANSLATIONS SECTION (Solo visible en ES) -->
-<section id="translations" class="hidden pt-4 pb-24 px-6 relative z-10">
+<section id="seccion-traducciones" class="hidden pt-4 pb-24 px-6 relative z-10">
     <div class="max-w-6xl mx-auto">
         <div class="text-center mb-10">
             <h2 class="text-4xl md:text-5xl font-extrabold text-nursery-dark mb-4 tracking-tight">Traducciones</h2>
@@ -644,17 +644,15 @@
             document.getElementById('lang-indicator').innerText = lang.toUpperCase();
             document.getElementById('lang-indicator-mobile').innerText = lang.toUpperCase();
 
-            // --- MAGIA DE LAS TRADUCCIONES ---
-    const transSection = document.getElementById('translations');
+// --- MAGIA DE LAS TRADUCCIONES ---
+    const transSection = document.getElementById('seccion-traducciones');
     const navTransLink = document.getElementById('nav-trans-link');
     
     if (transSection && navTransLink) {
         if (lang === 'es') {
-            // Mostrar en español
             transSection.classList.remove('hidden');
             navTransLink.classList.remove('hidden');
         } else {
-            // Ocultar en inglés
             transSection.classList.add('hidden');
             navTransLink.classList.add('hidden');
         }
