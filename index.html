@@ -644,7 +644,7 @@
             document.getElementById('lang-indicator').innerText = lang.toUpperCase();
             document.getElementById('lang-indicator-mobile').innerText = lang.toUpperCase();
 
-// --- MAGIA DE LAS TRADUCCIONES ---
+    // --- MAGIA DE LAS TRADUCCIONES ---
     const transSection = document.getElementById('seccion-traducciones');
     const navTransLink = document.getElementById('nav-trans-link');
     
@@ -657,6 +657,7 @@
             navTransLink.classList.add('hidden');
         }
     }
+} // <--- ¡ESTA LLAVE ES VITAL PARA QUE NADA EXPLOTE!
 
         function toggleLang() {
             setLanguage(currentLang === 'en' ? 'es' : 'en');
