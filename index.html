@@ -309,6 +309,11 @@
                 </div>
             </div>
         </div>
+        <!-- TABLERO DE AVISOS -->
+            <div class="mt-6 mb-4 max-w-xl mx-auto bg-white/60 backdrop-blur-md border border-purple-200/60 rounded-full px-5 py-2.5 flex items-center justify-center gap-3 shadow-sm transform transition-all hover:scale-105 cursor-default">
+                <span class="animate-bounce text-purple-500 mt-1"><i class="fa-solid fa-thumbtack text-lg"></i></span>
+                <p class="text-sm text-gray-700 font-medium"><strong>Última actualización:</strong> Se subió la Parte 2 del cómic de Orangetart (14/Julio/2026)</p>
+            </div>
 
         <!-- Las Burbujas de Categorías -->
         <div class="grid grid-cols-2 gap-4 sm:gap-8 max-w-md mx-auto">
@@ -666,25 +671,33 @@
             }
         };
 
-        // ==========================================
+// ==========================================
         // 📚 BASE DE DATOS DE TRADUCCIONES
         // ==========================================
         const transDatabase = {
             comics: {
                 "orangetart": {
-                    pfp: "https://placehold.co/150x150/FCE7F3/FDA4AF?text=O", // Link a su foto de perfil
-                    socials: { x: false, bluesky: "LINK_BLUESKY_AQUI" }, // X está en false, se oculta automático
+                    pfp: "https://placehold.co/150x150/FCE7F3/FDA4AF?text=O", 
+                    socials: { x: false, bluesky: "LINK_BLUESKY_AQUI" }, 
                     works: {
-                        "Aventura en Pañales": [
-                            "https://placehold.co/800x1200/E9D5FF/8B5CF6?text=Pagina+1", // Cámbialos por tus imágenes
-                            "https://placehold.co/800x1200/E9D5FF/8B5CF6?text=Pagina+2"
-                        ]
+                        // 1. CÓMIC CON CAPÍTULOS (Usa LLAVES { } )
+                        "Aventura en Pañales": {
+                            "Parte 1": [
+                                "https://placehold.co/800x1200/E9D5FF/8B5CF6?text=Pagina+1", 
+                                "https://placehold.co/800x1200/E9D5FF/8B5CF6?text=Pagina+2"
+                            ],
+                            "Parte 2": [
+                                "https://placehold.co/800x1200/FCE7F3/FDA4AF?text=Pagina+3", 
+                                "https://placehold.co/800x800/FCE7F3/FDA4AF?text=Pag+Cuadrada+1:1"
+                            ]
+                        }
                     }
                 },
                 "woomyboi736": {
                     pfp: "https://placehold.co/150x150/E9D5FF/8B5CF6?text=W", 
-                    socials: { x: "LINK_X_AQUI", bluesky: "LINK_BLUESKY_AQUI" }, // Tiene las 2
+                    socials: { x: "LINK_X_AQUI", bluesky: "LINK_BLUESKY_AQUI" },
                     works: {
+                        // 2. CÓMIC CORTO SIN CAPÍTULOS (Usa CORCHETES [ ] directo)
                         "El Gran Escape": [
                             "https://placehold.co/800x1200/E9D5FF/8B5CF6?text=Portada", 
                             "https://placehold.co/800x1200/E9D5FF/8B5CF6?text=Pagina+2"
@@ -695,7 +708,7 @@
             minicomis: {
                 "orangetart": {
                     pfp: "https://placehold.co/150x150/FCE7F3/FDA4AF?text=O",
-                    socials: { x: false, bluesky: "https://bsky.app/profile/orang3tart.bsky.social" },
+                    socials: { x: false, bluesky: "LINK_BLUESKY_AQUI" },
                     works: [
                         "https://placehold.co/800x800/E9D5FF/8B5CF6?text=Mini+Comic+1",
                         "https://placehold.co/800x800/E9D5FF/8B5CF6?text=Mini+Comic+2"
@@ -703,7 +716,7 @@
                 },
                 "woomyboi736": {
                     pfp: "https://placehold.co/150x150/E9D5FF/8B5CF6?text=W",
-                    socials: { x: "https://x.com/woomyboi736?lang=en", bluesky: "https://bsky.app/profile/did:plc:ikeocumvmolqlxhqdsiaero7" },
+                    socials: { x: "LINK_X_AQUI", bluesky: "LINK_BLUESKY_AQUI" },
                     works: [
                         "https://placehold.co/800x800/FCE7F3/FDA4AF?text=Meme+1",
                         "https://placehold.co/800x800/FCE7F3/FDA4AF?text=Meme+2"
@@ -711,6 +724,179 @@
                 }
             }
         };
+
+        // ==========================================
+        // FUNCIONES DE NAVEGACIÓN Y LECTURA
+        // ==========================================
+        function openTranslationsGallery(type) {
+            const modal = document.getElementById('gallery-modal');
+            const modalContent = document.getElementById('gallery-modal-content');
+            const modalTitle = document.getElementById('modal-title');
+            const modalGrid = document.getElementById('modal-grid');
+            const modalSpacer = document.getElementById('modal-spacer');
+
+            modalSpacer.classList.remove('hidden');
+            const icon = type === 'comics' ? 'fa-book-open' : 'fa-layer-group';
+            const title = type === 'comics' ? 'Cómics' : 'Mini Comis';
+            modalTitle.innerHTML = `<i class="fa-solid ${icon} text-purple-500 shrink-0"></i> <span class="truncate">${title}</span>`;
+
+            modalGrid.innerHTML = '';
+            modalGrid.className = "grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-8 max-w-2xl mx-auto items-center mt-4 mb-10"; 
+
+            const artists = transDatabase[type];
+
+            Object.keys(artists).forEach(artistName => {
+                const artist = artists[artistName];
+                let socialsHTML = '';
+                
+                if (artist.socials.x) socialsHTML += `<a href="${artist.socials.x}" target="_blank" onclick="event.stopPropagation()" class="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center hover:scale-110 transition-transform shadow-md" title="Twitter/X"><i class="fa-brands fa-x-twitter"></i></a>`;
+                if (artist.socials.bluesky) socialsHTML += `<a href="${artist.socials.bluesky}" target="_blank" onclick="event.stopPropagation()" class="w-8 h-8 rounded-full bg-[#0085FF] text-white flex items-center justify-center hover:scale-110 transition-transform shadow-md" title="Bluesky"><i class="fa-solid fa-cloud"></i></a>`;
+
+                const artistCard = document.createElement('div');
+                artistCard.className = "flex flex-col items-center gap-3 cursor-pointer group transform transition-all duration-300 hover:-translate-y-2";
+                artistCard.onclick = () => openArtistWorks(type, artistName);
+
+                artistCard.innerHTML = `
+                    <div class="relative">
+                        <img src="${artist.pfp}" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover border-[3px] border-white shadow-lg group-hover:shadow-purple-200 transition-all duration-300">
+                    </div>
+                    <h4 class="font-extrabold text-nursery-dark text-lg group-hover:text-purple-500 transition-colors text-center leading-tight">${artistName}</h4>
+                    <div class="flex items-center justify-center gap-2 mt-1">${socialsHTML}</div>
+                `;
+                modalGrid.appendChild(artistCard);
+            });
+
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function openArtistWorks(type, artistName) {
+            const data = transDatabase[type][artistName];
+            const modalTitle = document.getElementById('modal-title');
+            const modalSpacer = document.getElementById('modal-spacer');
+            modalSpacer.classList.add('hidden');
+
+            modalTitle.innerHTML = `
+                <button onclick="openTranslationsGallery('${type}')" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-50 text-purple-500 hover:bg-purple-500 hover:text-white flex items-center justify-center transition-all duration-300 shrink-0 border border-purple-100"><i class="fa-solid fa-arrow-left text-xs sm:text-sm"></i></button>
+                <div class="flex-1 flex items-center justify-center gap-1.5 truncate"><span class="text-nursery-dark font-extrabold truncate">${artistName}</span></div>
+            `;
+
+            if (type === 'minicomis') {
+                // Mini comis van directo a lectura
+                renderReadingMode(data.works);
+            } else {
+                const modalGrid = document.getElementById('modal-grid');
+                modalGrid.innerHTML = '';
+                modalGrid.className = "grid grid-cols-2 sm:grid-cols-3 gap-6 max-w-3xl mx-auto items-start mt-4 mb-10";
+
+                Object.keys(data.works).forEach(comicName => {
+                    const comicData = data.works[comicName];
+                    const isMultiChapter = !Array.isArray(comicData); // Si no es un array, tiene capítulos
+                    
+                    // Obtener la portada (1ra pág de la 1ra parte, o 1ra pág directa)
+                    const coverImg = isMultiChapter ? Object.values(comicData)[0][0] : comicData[0]; 
+                    
+                    // Calcular cantidad de páginas total
+                    let totalPages = 0;
+                    if (isMultiChapter) {
+                        Object.values(comicData).forEach(chapter => totalPages += chapter.length);
+                    } else {
+                        totalPages = comicData.length;
+                    }
+
+                    const coverCard = document.createElement('div');
+                    coverCard.className = "cursor-pointer group flex flex-col items-center gap-3";
+                    coverCard.onclick = () => openComicDetails(type, artistName, comicName);
+
+                    coverCard.innerHTML = `
+                        <div class="w-full aspect-[2/3] rounded-2xl overflow-hidden shadow-lg border-4 border-white group-hover:shadow-2xl group-hover:-translate-y-2 transition-all duration-300 relative bg-white">
+                            <img src="${coverImg}" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-purple-900/0 group-hover:bg-purple-900/30 transition-all duration-300 flex items-center justify-center">
+                                <div class="w-12 h-12 bg-white text-purple-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transform scale-50 group-hover:scale-100 transition-all duration-300 shadow-xl"><i class="fa-solid fa-book-open text-xl"></i></div>
+                            </div>
+                        </div>
+                        <h4 class="font-bold text-nursery-dark text-sm sm:text-base text-center leading-tight group-hover:text-purple-500 transition-colors">${comicName}</h4>
+                        <div class="flex gap-1 items-center">
+                            ${isMultiChapter ? '<span class="text-[9px] sm:text-[10px] text-white font-bold bg-purple-400 px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm"><i class="fa-solid fa-layer-group"></i> Caps</span>' : ''}
+                            <span class="text-[10px] sm:text-xs text-purple-500 font-bold bg-purple-50 px-2.5 py-0.5 rounded-full shadow-sm border border-purple-100">${totalPages} Págs</span>
+                        </div>
+                    `;
+                    modalGrid.appendChild(coverCard);
+                });
+            }
+        }
+
+        function openComicDetails(type, artistName, comicName) {
+            const comicData = transDatabase[type][artistName].works[comicName];
+            const isMultiChapter = !Array.isArray(comicData);
+
+            if (!isMultiChapter) {
+                // Si es un cómic corto (One-shot), vamos a leerlo directo
+                openComicPages(type, artistName, comicName, null, comicData);
+            } else {
+                // Si tiene capítulos, mostramos el menú de botones
+                const modalTitle = document.getElementById('modal-title');
+                modalTitle.innerHTML = `
+                    <button onclick="openArtistWorks('${type}', '${artistName}')" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-50 text-purple-500 hover:bg-purple-500 hover:text-white flex items-center justify-center transition-all duration-300 shrink-0 border border-purple-100"><i class="fa-solid fa-arrow-left text-xs sm:text-sm"></i></button>
+                    <div class="flex-1 flex items-center justify-center gap-1.5 truncate text-sm sm:text-base">
+                        <span class="hidden sm:inline opacity-70 truncate">${artistName} <span class="mx-0.5">/</span></span>
+                        <span class="text-purple-500 font-extrabold truncate">${comicName}</span>
+                    </div>
+                `;
+
+                const modalGrid = document.getElementById('modal-grid');
+                modalGrid.innerHTML = '';
+                modalGrid.className = "flex flex-col gap-4 max-w-sm mx-auto mt-8 mb-10 w-full px-4"; 
+
+                Object.keys(comicData).forEach(chapterName => {
+                    const btn = document.createElement('button');
+                    btn.className = "w-full py-4 px-6 rounded-[2rem] font-extrabold text-purple-600 bg-white/80 backdrop-blur-sm hover:bg-purple-500 hover:text-white transition-all duration-300 shadow-md border-2 border-white hover:shadow-[0_10px_20px_-5px_rgba(168,85,247,0.4)] hover:-translate-y-1 flex items-center justify-center gap-3 group";
+                    btn.onclick = () => openComicPages(type, artistName, comicName, chapterName, comicData[chapterName]);
+                    btn.innerHTML = `<i class="fa-solid fa-bookmark text-purple-300 group-hover:text-white transition-colors"></i> <span class="text-lg">${chapterName}</span> <span class="text-xs opacity-60 font-bold ml-auto group-hover:opacity-100 transition-opacity">(${comicData[chapterName].length} Págs)</span>`;
+                    modalGrid.appendChild(btn);
+                });
+            }
+        }
+
+        function openComicPages(type, artistName, comicName, chapterName, pagesArray) {
+            const modalTitle = document.getElementById('modal-title');
+            const backAction = chapterName ? `openComicDetails('${type}', '${artistName}', '${comicName}')` : `openArtistWorks('${type}', '${artistName}')`;
+            const subtitle = chapterName ? `<span class="mx-0.5">/</span> <span class="text-purple-400 font-bold">${chapterName}</span>` : "";
+
+            modalTitle.innerHTML = `
+                <button onclick="${backAction}" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-50 text-purple-500 hover:bg-purple-500 hover:text-white flex items-center justify-center transition-all duration-300 shrink-0 border border-purple-100"><i class="fa-solid fa-arrow-left text-xs sm:text-sm"></i></button>
+                <div class="flex-1 flex items-center justify-center gap-1.5 truncate text-sm sm:text-base">
+                    <span class="text-purple-600 font-extrabold truncate">${comicName}</span>${subtitle}
+                </div>
+            `;
+            renderReadingMode(pagesArray);
+        }
+
+        // EL MODO LECTURA PERFECTO (1 COLUMNA CENTRADA)
+        function renderReadingMode(imagesArray) {
+            const modalGrid = document.getElementById('modal-grid');
+            modalGrid.className = "flex flex-col items-center gap-4 sm:gap-6 max-w-2xl mx-auto pb-10 w-full"; // 1 Sola Columna
+            modalGrid.innerHTML = ''; 
+            
+            imagesArray.forEach(src => {
+                const imgContainer = document.createElement('div');
+                imgContainer.className = "w-full bg-white rounded-xl sm:rounded-2xl shadow-md overflow-hidden flex justify-center border-2 border-white/80 cursor-zoom-in transition-transform duration-300 hover:shadow-lg";
+                imgContainer.onclick = () => openLightbox(src); // Para ampliar al dar clic
+                
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = "Página de Cómic";
+                img.className = "max-w-full h-auto block"; // Esto es lo que ajusta las de 1:1 automático
+                
+                imgContainer.appendChild(img);
+                modalGrid.appendChild(imgContainer);
+            });
+        }
         
         function renderImages(imagesArray) {
             const modalGrid = document.getElementById('modal-grid');
