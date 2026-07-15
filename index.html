@@ -484,15 +484,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
     
     <script>
-        // ==========================================
+// ==========================================
         // ⚙️ INTERRUPTOR DE COMISIONES ⚙️
+        // ==========================================
         const COMMISSIONS_OPEN = false; 
-        
-        // 🎫 SLOTS DE COMISIONES 🎫
         const SLOTS_TOTALES = 0;
         const SLOTS_DISPONIBLES = 0; 
-        // ==========================================
 
+        // ==========================================
+        // 🌍 DICCIONARIO DE IDIOMAS
+        // ==========================================
         const translations = {
             en: {
                 "age-title": "Content Warning",
@@ -614,34 +615,38 @@
             document.getElementById('lang-indicator').innerText = lang.toUpperCase();
             document.getElementById('lang-indicator-mobile').innerText = lang.toUpperCase();
 
-    // --- MAGIA DE LAS TRADUCCIONES ---
-    const transSection = document.getElementById('seccion-traducciones');
-    const navTransLink = document.getElementById('nav-trans-link');
-    
-    if (transSection && navTransLink) {
-        if (lang === 'es') {
-            transSection.classList.remove('hidden');
-            navTransLink.classList.remove('hidden');
-        } else {
-            transSection.classList.add('hidden');
-            navTransLink.classList.add('hidden');
+            // Lógica para mostrar/ocultar traducciones
+            const transSection = document.getElementById('seccion-traducciones');
+            const navTransLink = document.getElementById('nav-trans-link');
+            
+            if (transSection && navTransLink) {
+                if (lang === 'es') {
+                    transSection.classList.remove('hidden');
+                    navTransLink.classList.remove('hidden');
+                } else {
+                    transSection.classList.add('hidden');
+                    navTransLink.classList.add('hidden');
+                }
+            }
         }
-    }
-} // <--- ¡ESTA LLAVE ES VITAL PARA QUE NADA EXPLOTE!
 
         function toggleLang() {
             setLanguage(currentLang === 'en' ? 'es' : 'en');
             const modalTitle = document.getElementById('modal-title');
             if (document.getElementById('gallery-modal').style.display === 'flex') {
-                if(!modalTitle.innerHTML.includes('arrow-left')) {
+                if(modalTitle && !modalTitle.innerHTML.includes('arrow-left')) {
                     const isCommissions = modalTitle.innerHTML.includes('Com');
                     const key = isCommissions ? 'folder-commissions' : 'folder-personal';
-                    // Re-inyecta el titulo sin romper la píldora
-                    modalTitle.innerHTML = `<i class="fa-regular fa-folder-open text-nursery-rose shrink-0"></i> <span class="truncate">${translations[currentLang][key]}</span>`;
+                    if (translations[currentLang][key]) {
+                        modalTitle.innerHTML = `<i class="fa-regular fa-folder-open text-nursery-rose shrink-0"></i> <span class="truncate">${translations[currentLang][key]}</span>`;
+                    }
                 }
             }
         }
 
+        // ==========================================
+        // 🎨 BASE DE DATOS DE ARTWORK (3D)
+        // ==========================================
         const artDatabase = {
             personal: {
                 isNested: false,
@@ -665,13 +670,12 @@
                         "Images/Robin Park Walk.png",
                         "Images/silly ab momo.jpg",
                     ],
-                    "2027": [
-                    ]
+                    "2027": []
                 }
             }
         };
 
-// ==========================================
+        // ==========================================
         // 📚 BASE DE DATOS DE TRADUCCIONES
         // ==========================================
         const transDatabase = {
@@ -723,8 +727,99 @@
             }
         };
 
-// ==========================================
-        // FUNCIONES DE NAVEGACIÓN Y LECTURA
+        // ==========================================
+        // CONTROLES DE LA GALERÍA PRINCIPAL (ARTWORK)
+        // ==========================================
+        function openGallery(category) {
+            const modal = document.getElementById('gallery-modal');
+            const modalContent = document.getElementById('gallery-modal-content');
+            const modalTitle = document.getElementById('modal-title');
+            const modalGrid = document.getElementById('modal-grid');
+            const modalSpacer = document.getElementById('modal-spacer');
+            
+            const data = artDatabase[category];
+            const titleKey = category === 'personal' ? 'folder-personal' : 'folder-commissions';
+            
+            modalSpacer.className = 'w-8 h-8 hidden';
+            modalSpacer.innerHTML = '';
+            modalTitle.innerHTML = `<i class="fa-regular fa-folder-open text-nursery-rose shrink-0"></i> <span class="truncate">${translations[currentLang][titleKey]}</span>`;
+            
+            if (data.isNested) {
+                modalGrid.innerHTML = '';
+                modalGrid.className = "grid grid-cols-2 gap-4 sm:gap-8 max-w-md mx-auto items-center mt-2 md:mt-6 mb-10";
+                
+                Object.keys(data.subcategories).forEach(year => {
+                    const amount = data.subcategories[year].length;
+                    const renderWord = translations[currentLang]["renders-word"];
+
+                    const yearCard = document.createElement('div');
+                    yearCard.className = "p-4 sm:p-6 rounded-[2.5rem] md:rounded-[3rem] text-center cursor-pointer transform transition-all duration-500 md:hover:-translate-y-4 hover:shadow-[0_20px_40px_-10px_rgba(233,213,255,0.8)] border-[3px] border-white bg-gradient-to-b from-white via-purple-50/30 to-pink-50/50 group relative overflow-hidden shadow-xl flex flex-col items-center justify-center aspect-[1/1.4] w-full mx-auto";
+                    yearCard.onclick = () => openSubGallery(category, year);
+                    
+                    yearCard.innerHTML = `
+                        <div class="absolute -top-10 -right-10 w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-bl from-purple-200/50 to-transparent rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 mx-auto bg-white text-purple-400 rounded-full flex items-center justify-center text-xl sm:text-2xl mb-4 sm:mb-6 shadow-[0_10px_20px_-5px_rgba(233,213,255,0.8)] transition-all duration-500 md:group-hover:scale-110 border border-purple-50 group-hover:bg-purple-400 group-hover:text-white relative z-10"><i class="fa-solid fa-calendar-days"></i></div>
+                        <h4 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-nursery-dark tracking-tight mb-2 sm:mb-4 relative z-10">${year}</h4>
+                        <div class="inline-block px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-white text-purple-500 text-[9px] sm:text-[10px] font-extrabold tracking-widest uppercase shadow-sm transition-all duration-300 group-hover:bg-purple-100 group-hover:shadow-md relative z-10 border border-purple-50">${amount} ${renderWord}</div>
+                    `;
+                    modalGrid.appendChild(yearCard);
+                });
+            } else {
+                renderImages(data.images);
+            }
+            
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 10);
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function openSubGallery(category, year) {
+            const data = artDatabase[category];
+            const modalTitle = document.getElementById('modal-title');
+            const modalSpacer = document.getElementById('modal-spacer');
+            const titleKey = category === 'personal' ? 'folder-personal' : 'folder-commissions';
+            
+            modalSpacer.className = 'w-8 h-8 hidden';
+            modalSpacer.innerHTML = '';
+            
+            modalTitle.innerHTML = `
+                <button onclick="openGallery('${category}')" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-pink-50 text-nursery-rose hover:bg-nursery-rose hover:text-white flex items-center justify-center transition-all duration-300 shrink-0 border border-pink-100"><i class="fa-solid fa-arrow-left text-xs sm:text-sm"></i></button>
+                <div class="flex-1 flex items-center justify-center gap-1.5 truncate"><span class="hidden sm:inline opacity-70 truncate"><i class="fa-regular fa-folder-open"></i> ${translations[currentLang][titleKey]} <span class="mx-0.5">/</span></span><span class="text-purple-500 font-extrabold truncate">${year}</span></div>
+            `;
+            renderImages(data.subcategories[year]);
+        }
+
+        function renderImages(imagesArray) {
+            const modalGrid = document.getElementById('modal-grid');
+            modalGrid.className = "columns-1 md:columns-2 gap-4 md:gap-6";
+            modalGrid.innerHTML = ''; 
+            
+            imagesArray.forEach(src => {
+                const imgContainer = document.createElement('div');
+                imgContainer.className = "rounded-2xl shadow-md break-inside-avoid mb-4 md:mb-6 w-full cursor-pointer relative group inline-block overflow-hidden border-2 border-white/60 hover:shadow-xl transition-shadow duration-300 transform translate-z-0";
+                imgContainer.onclick = function() { openLightbox(src); };
+                
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = "Artwork";
+                img.className = 'w-full h-auto block transition-transform duration-500 group-hover:scale-105';
+                
+                const overlay = document.createElement('div');
+                overlay.className = "absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-10";
+                overlay.innerHTML = '<div class="w-14 h-14 bg-nursery-rose text-white rounded-full flex items-center justify-center shadow-2xl transform scale-50 group-hover:scale-100 transition-transform duration-300"><i class="fa-solid fa-expand text-xl"></i></div>';
+
+                imgContainer.appendChild(img);
+                imgContainer.appendChild(overlay);
+                modalGrid.appendChild(imgContainer);
+            });
+        }
+
+        // ==========================================
+        // CONTROLES DE LA GALERÍA DE TRADUCCIONES
         // ==========================================
         function openTranslationsGallery(type) {
             const modal = document.getElementById('gallery-modal');
@@ -733,8 +828,7 @@
             const modalGrid = document.getElementById('modal-grid');
             const modalSpacer = document.getElementById('modal-spacer');
 
-            // El botón de atrás se esconde, pero mantiene el balance visual
-            modalSpacer.className = 'w-8 h-8 shrink-0';
+            modalSpacer.className = 'w-8 h-8 hidden';
             modalSpacer.innerHTML = ''; 
             
             const icon = type === 'comics' ? 'fa-book-open' : 'fa-layer-group';
@@ -781,7 +875,6 @@
             const modalTitle = document.getElementById('modal-title');
             const modalSpacer = document.getElementById('modal-spacer');
 
-            // Ahora el botón de Atrás se inyecta en su propio espacio seguro (modalSpacer)
             modalSpacer.className = 'w-8 h-8 shrink-0';
             modalSpacer.innerHTML = `<button onclick="openTranslationsGallery('${type}')" class="w-full h-full rounded-full bg-purple-50 text-purple-500 hover:bg-purple-500 hover:text-white flex items-center justify-center transition-all duration-300 border border-purple-100"><i class="fa-solid fa-arrow-left text-xs sm:text-sm"></i></button>`;
             
@@ -894,16 +987,14 @@
                 if (!src || src === 'undefined') return;
 
                 const imgContainer = document.createElement('div');
-                // Agregamos 'relative' y 'group' para poder poner el efecto visual de la lupa al pasar el mouse
                 imgContainer.className = "w-full bg-white rounded-lg sm:rounded-2xl shadow-lg overflow-hidden border-2 border-white/80 cursor-pointer hover:shadow-xl transition-shadow relative group";
-                imgContainer.onclick = () => openLightbox(src);
+                imgContainer.onclick = function() { openLightbox(src); };
                 
                 const img = document.createElement('img');
                 img.src = src;
                 img.alt = "Página de Cómic";
                 img.className = "w-full h-auto block relative z-0"; 
                 
-                // La capa invisible con el ícono de lupa que aparece al pasar el ratón (igual a tu galería de renders)
                 const overlay = document.createElement('div');
                 overlay.className = "absolute inset-0 bg-purple-900/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-10";
                 overlay.innerHTML = '<div class="w-14 h-14 bg-purple-500 text-white rounded-full flex items-center justify-center shadow-2xl transform scale-50 group-hover:scale-100 transition-transform duration-300"><i class="fa-solid fa-expand text-xl"></i></div>';
@@ -913,7 +1004,53 @@
                 modalGrid.appendChild(imgContainer);
             });
         }
+
+        // ==========================================
+        // FUNCIONES GENERALES DEL SISTEMA
+        // ==========================================
+        function closeGallery() {
+            const modal = document.getElementById('gallery-modal');
+            const modalContent = document.getElementById('gallery-modal-content');
             
+            modal.classList.add('opacity-0');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.style.display = 'none';
+                if(document.getElementById('age-gate').style.display === 'none') {
+                    document.body.style.overflow = 'auto'; 
+                }
+            }, 300); 
+        }
+
+        function openLightbox(src) {
+            const lightbox = document.getElementById('lightbox-modal');
+            const lightboxImg = document.getElementById('lightbox-img');
+            
+            lightboxImg.src = src;
+            lightbox.style.display = 'flex';
+            
+            setTimeout(() => {
+                lightbox.classList.remove('opacity-0');
+                lightboxImg.classList.remove('scale-95');
+                lightboxImg.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox-modal');
+            const lightboxImg = document.getElementById('lightbox-img');
+            
+            lightbox.classList.add('opacity-0');
+            lightboxImg.classList.remove('scale-100');
+            lightboxImg.classList.add('scale-95');
+            
+            setTimeout(() => {
+                lightbox.style.display = 'none';
+            }, 300);
+        }
+
         function enterSite() {
             const gate = document.getElementById('age-gate');
             gate.style.opacity = '0';
@@ -927,13 +1064,12 @@
             window.location.href = 'https://www.google.com';
         }
 
+        // Inicialización al cargar la página
         document.addEventListener("DOMContentLoaded", function() {
             setLanguage('en'); 
             document.body.style.overflow = 'hidden'; 
             
-// Inicializar Tilt solo en pantallas grandes (PC/Tablets) para ahorrar rendimiento en móviles
             if (window.innerWidth >= 768) {
-                // Aplicar a los elementos que ya tenían data-tilt
                 VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
                     max: 15,
                     speed: 400,
@@ -941,13 +1077,8 @@
                     "max-glare": 0.2,
                     perspective: 1000
                 });
-                // Aplicar explícitamente a la tarjeta del Age Gate
                 VanillaTilt.init(document.getElementById("tilt-card"), {
-                    max: 15,
-                    speed: 400,
-                    glare: true,
-                    "max-glare": 0.2,
-                    perspective: 1000
+                    max: 15, speed: 400, glare: true, "max-glare": 0.2, perspective: 1000
                 });
             }
 
