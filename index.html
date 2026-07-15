@@ -723,7 +723,7 @@
             }
         };
 
-        // ==========================================
+// ==========================================
         // FUNCIONES DE NAVEGACIÓN Y LECTURA
         // ==========================================
         function openTranslationsGallery(type) {
@@ -733,7 +733,10 @@
             const modalGrid = document.getElementById('modal-grid');
             const modalSpacer = document.getElementById('modal-spacer');
 
-            modalSpacer.classList.remove('hidden');
+            // El botón de atrás se esconde, pero mantiene el balance visual
+            modalSpacer.className = 'w-8 h-8 shrink-0';
+            modalSpacer.innerHTML = ''; 
+            
             const icon = type === 'comics' ? 'fa-book-open' : 'fa-layer-group';
             const title = type === 'comics' ? 'Cómics' : 'Mini Comis';
             modalTitle.innerHTML = `<i class="fa-solid ${icon} text-purple-500 shrink-0"></i> <span class="truncate">${title}</span>`;
@@ -777,12 +780,12 @@
             const data = transDatabase[type][artistName];
             const modalTitle = document.getElementById('modal-title');
             const modalSpacer = document.getElementById('modal-spacer');
-            modalSpacer.classList.add('hidden');
 
-            modalTitle.innerHTML = `
-                <button onclick="openTranslationsGallery('${type}')" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-50 text-purple-500 hover:bg-purple-500 hover:text-white flex items-center justify-center transition-all duration-300 shrink-0 border border-purple-100"><i class="fa-solid fa-arrow-left text-xs sm:text-sm"></i></button>
-                <div class="flex-1 flex items-center justify-center gap-1.5 truncate"><span class="text-nursery-dark font-extrabold truncate">${artistName}</span></div>
-            `;
+            // Ahora el botón de Atrás se inyecta en su propio espacio seguro (modalSpacer)
+            modalSpacer.className = 'w-8 h-8 shrink-0';
+            modalSpacer.innerHTML = `<button onclick="openTranslationsGallery('${type}')" class="w-full h-full rounded-full bg-purple-50 text-purple-500 hover:bg-purple-500 hover:text-white flex items-center justify-center transition-all duration-300 border border-purple-100"><i class="fa-solid fa-arrow-left text-xs sm:text-sm"></i></button>`;
+            
+            modalTitle.innerHTML = `<span class="text-nursery-dark font-extrabold truncate">${artistName}</span>`;
 
             if (type === 'minicomis') {
                 renderReadingMode(data.works);
@@ -793,7 +796,6 @@
 
                 Object.keys(data.works).forEach(comicName => {
                     const comicData = data.works[comicName];
-                    
                     let isMultiChapter = false;
                     let totalPages = 0;
                     let coverImg = "";
@@ -845,13 +847,12 @@
                 openComicPages(type, artistName, comicName, null, comicData);
             } else {
                 const modalTitle = document.getElementById('modal-title');
-                modalTitle.innerHTML = `
-                    <button onclick="openArtistWorks('${type}', '${artistName}')" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-50 text-purple-500 hover:bg-purple-500 hover:text-white flex items-center justify-center transition-all duration-300 shrink-0 border border-purple-100"><i class="fa-solid fa-arrow-left text-xs sm:text-sm"></i></button>
-                    <div class="flex-1 flex items-center justify-center gap-1.5 truncate text-sm sm:text-base">
-                        <span class="hidden sm:inline opacity-70 truncate">${artistName} <span class="mx-0.5">/</span></span>
-                        <span class="text-purple-500 font-extrabold truncate">${comicName}</span>
-                    </div>
-                `;
+                const modalSpacer = document.getElementById('modal-spacer');
+                
+                modalSpacer.className = 'w-8 h-8 shrink-0';
+                modalSpacer.innerHTML = `<button onclick="openArtistWorks('${type}', '${artistName}')" class="w-full h-full rounded-full bg-purple-50 text-purple-500 hover:bg-purple-500 hover:text-white flex items-center justify-center transition-all duration-300 border border-purple-100"><i class="fa-solid fa-arrow-left text-xs sm:text-sm"></i></button>`;
+
+                modalTitle.innerHTML = `<span class="hidden sm:inline opacity-70 truncate">${artistName} <span class="mx-0.5">/</span></span><span class="text-purple-500 font-extrabold truncate">${comicName}</span>`;
 
                 const modalGrid = document.getElementById('modal-grid');
                 modalGrid.innerHTML = '';
@@ -870,21 +871,20 @@
 
         function openComicPages(type, artistName, comicName, chapterName, pagesArray) {
             const modalTitle = document.getElementById('modal-title');
+            const modalSpacer = document.getElementById('modal-spacer');
             const backAction = chapterName ? `openComicDetails('${type}', '${artistName}', '${comicName}')` : `openArtistWorks('${type}', '${artistName}')`;
-            const subtitle = chapterName ? `<span class="mx-0.5">/</span> <span class="text-purple-400 font-bold">${chapterName}</span>` : "";
+            
+            modalSpacer.className = 'w-8 h-8 shrink-0';
+            modalSpacer.innerHTML = `<button onclick="${backAction}" class="w-full h-full rounded-full bg-purple-50 text-purple-500 hover:bg-purple-500 hover:text-white flex items-center justify-center transition-all duration-300 border border-purple-100"><i class="fa-solid fa-arrow-left text-xs sm:text-sm"></i></button>`;
 
-            modalTitle.innerHTML = `
-                <button onclick="${backAction}" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-50 text-purple-500 hover:bg-purple-500 hover:text-white flex items-center justify-center transition-all duration-300 shrink-0 border border-purple-100"><i class="fa-solid fa-arrow-left text-xs sm:text-sm"></i></button>
-                <div class="flex-1 flex items-center justify-center gap-1.5 truncate text-sm sm:text-base">
-                    <span class="text-purple-600 font-extrabold truncate">${comicName}</span>${subtitle}
-                </div>
-            `;
+            const subtitle = chapterName ? `<span class="mx-0.5">/</span> <span class="text-purple-400 font-bold">${chapterName}</span>` : "";
+            modalTitle.innerHTML = `<span class="text-purple-600 font-extrabold truncate">${comicName}</span>${subtitle}`;
+            
             renderReadingMode(pagesArray);
         }
 
         function renderReadingMode(imagesArray) {
             const modalGrid = document.getElementById('modal-grid');
-            // AQUÍ ESTÁ LA MAGIA PARA CENTRAR LAS IMÁGENES (flex-col y items-center)
             modalGrid.className = "flex flex-col items-center gap-6 max-w-3xl mx-auto pb-12 w-full px-2 sm:px-0"; 
             modalGrid.innerHTML = ''; 
             
@@ -894,15 +894,22 @@
                 if (!src || src === 'undefined') return;
 
                 const imgContainer = document.createElement('div');
-                imgContainer.className = "w-full bg-white rounded-lg sm:rounded-2xl shadow-lg overflow-hidden border-2 border-white/80 cursor-zoom-in hover:shadow-xl transition-shadow";
+                // Agregamos 'relative' y 'group' para poder poner el efecto visual de la lupa al pasar el mouse
+                imgContainer.className = "w-full bg-white rounded-lg sm:rounded-2xl shadow-lg overflow-hidden border-2 border-white/80 cursor-pointer hover:shadow-xl transition-shadow relative group";
                 imgContainer.onclick = () => openLightbox(src);
                 
                 const img = document.createElement('img');
                 img.src = src;
                 img.alt = "Página de Cómic";
-                img.className = "w-full h-auto block"; // Esto las hace gigantes y centradas
+                img.className = "w-full h-auto block relative z-0"; 
                 
+                // La capa invisible con el ícono de lupa que aparece al pasar el ratón (igual a tu galería de renders)
+                const overlay = document.createElement('div');
+                overlay.className = "absolute inset-0 bg-purple-900/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-10";
+                overlay.innerHTML = '<div class="w-14 h-14 bg-purple-500 text-white rounded-full flex items-center justify-center shadow-2xl transform scale-50 group-hover:scale-100 transition-transform duration-300"><i class="fa-solid fa-expand text-xl"></i></div>';
+
                 imgContainer.appendChild(img);
+                imgContainer.appendChild(overlay);
                 modalGrid.appendChild(imgContainer);
             });
         }
